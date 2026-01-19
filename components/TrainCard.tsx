@@ -126,31 +126,31 @@ const TrainCard: React.FC<TrainCardProps> = ({ train }) => {
           {/* Schedule Visualization */}
           <div className="grid grid-cols-1 xl:grid-cols-7 gap-6 sm:gap-8 lg:gap-10 items-center mb-8 sm:mb-10 lg:mb-12">
             <div className="xl:col-span-2 space-y-2 text-center xl:text-left">
-              <div className="text-3xl sm:text-4xl font-black text-white font-space tracking-tight">{train.departure}</div>
-              <div className="flex items-center justify-center xl:justify-start text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] sm:tracking-[0.2em]">
-                <MapPin className="w-2.5 h-2.5 sm:w-3 sm:h-3 mr-1 sm:mr-2 text-cyan-400" /> {train.from} ({train.fromCode})
+              <div className="text-3xl sm:text-4xl font-black text-white dark:text-white text-gray-900 font-space tracking-tight">{train.departure}</div>
+              <div className="flex items-center justify-center xl:justify-start text-[9px] sm:text-[10px] font-black text-slate-400 dark:text-slate-400 text-gray-600 uppercase tracking-[0.15em] sm:tracking-[0.2em]">
+                <MapPin className="w-2.5 h-2.5 sm:w-3 sm:h-3 mr-1 sm:mr-2 text-cyan-400 dark:text-cyan-400 text-cyan-600" /> {train.from} ({train.fromCode})
               </div>
             </div>
 
             <div className="xl:col-span-3 px-4 sm:px-6 lg:px-10 relative order-3 xl:order-2">
-              <div className="hidden xl:block absolute top-1/2 left-0 w-full h-[1px] bg-white/5 -translate-y-1/2 overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent animate-scanline h-full w-[200px]" style={{ animation: 'scan 2s linear infinite' }}></div>
+              <div className="hidden xl:block absolute top-1/2 left-0 w-full h-[1px] bg-white/5 dark:bg-white/5 bg-gray-300 -translate-y-1/2 overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/30 dark:via-cyan-400/30 via-cyan-600/40 to-transparent animate-scanline h-full w-[200px]" style={{ animation: 'scan 2s linear infinite' }}></div>
               </div>
               <div className="relative flex flex-col items-center">
-                <div className="bg-[#020617] px-4 sm:px-6 py-1.5 sm:py-2 text-[10px] sm:text-[11px] font-black text-white rounded-full border border-white/10 shadow-xl z-10 flex items-center">
-                  <Clock className="w-2.5 h-2.5 sm:w-3 sm:h-3 mr-1.5 sm:mr-2 text-cyan-400" />
+                <div className="bg-[#020617] dark:bg-[#020617] bg-white px-4 sm:px-6 py-1.5 sm:py-2 text-[10px] sm:text-[11px] font-black text-white dark:text-white text-gray-900 rounded-full border border-white/10 dark:border-white/10 border-gray-300 shadow-xl z-10 flex items-center">
+                  <Clock className="w-2.5 h-2.5 sm:w-3 sm:h-3 mr-1.5 sm:mr-2 text-cyan-400 dark:text-cyan-400 text-cyan-600" />
                   {train.duration}
                 </div>
-                <div className="hidden xl:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#020617] p-2 rounded-full border border-white/5">
-                  <Navigation className="w-5 h-5 text-cyan-400 rotate-90 drop-shadow-[0_0_10px_rgba(0,242,255,0.5)]" />
+                <div className="hidden xl:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#020617] dark:bg-[#020617] bg-white p-2 rounded-full border border-white/5 dark:border-white/5 border-gray-300">
+                  <Navigation className="w-5 h-5 text-cyan-400 dark:text-cyan-400 text-cyan-600 rotate-90 drop-shadow-[0_0_10px_rgba(0,242,255,0.5)] dark:drop-shadow-[0_0_10px_rgba(0,242,255,0.5)] drop-shadow-[0_0_10px_rgba(8,145,178,0.6)]" />
                 </div>
               </div>
             </div>
 
             <div className="xl:col-span-2 text-center xl:text-right space-y-2 order-2 xl:order-3">
-              <div className="text-3xl sm:text-4xl font-black text-white font-space tracking-tight">{train.arrival}</div>
-              <div className="flex items-center justify-center xl:justify-end text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] sm:tracking-[0.2em]">
-                {train.to} ({train.toCode}) <MapPin className="w-2.5 h-2.5 sm:w-3 sm:h-3 ml-1 sm:ml-2 text-orange-500" />
+              <div className="text-3xl sm:text-4xl font-black text-white dark:text-white text-gray-900 font-space tracking-tight">{train.arrival}</div>
+              <div className="flex items-center justify-center xl:justify-end text-[9px] sm:text-[10px] font-black text-slate-400 dark:text-slate-400 text-gray-600 uppercase tracking-[0.15em] sm:tracking-[0.2em]">
+                {train.to} ({train.toCode}) <MapPin className="w-2.5 h-2.5 sm:w-3 sm:h-3 ml-1 sm:ml-2 text-orange-500 dark:text-orange-500 text-orange-600" />
               </div>
             </div>
           </div>
@@ -249,13 +249,13 @@ const TrainCard: React.FC<TrainCardProps> = ({ train }) => {
                       { station: `${train.to} (${train.toCode})`, arrival: train.arrival, departure: '--:--', status: 'Terminal' }
                     ].map((step, idx) => (
                       <div key={idx} className="flex items-center justify-between pl-6 relative">
-                        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-4 bg-[#020617] border-2 border-cyan-500 rounded-full z-10"></div>
+                        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-4 bg-[#020617] dark:bg-[#020617] bg-white border-2 border-cyan-500 dark:border-cyan-500 border-cyan-600 rounded-full z-10"></div>
                         <div className="flex flex-col">
-                          <span className="text-xs font-black text-white tracking-wider">{step.station}</span>
-                          <span className="text-[9px] font-bold text-slate-500 uppercase">{step.status}</span>
+                          <span className="text-xs font-black text-white dark:text-white text-gray-900 tracking-wider">{step.station}</span>
+                          <span className="text-[9px] font-bold text-slate-500 dark:text-slate-500 text-gray-600 uppercase">{step.status}</span>
                         </div>
-                        <div className="text-[10px] font-black text-slate-400 font-space">
-                          ARR: <span className="text-white">{step.arrival}</span> | DEP: <span className="text-white">{step.departure}</span>
+                        <div className="text-[10px] font-black text-slate-400 dark:text-slate-400 text-gray-600 font-space">
+                          ARR: <span className="text-white dark:text-white text-gray-900">{step.arrival}</span> | DEP: <span className="text-white dark:text-white text-gray-900">{step.departure}</span>
                         </div>
                       </div>
                     ))}

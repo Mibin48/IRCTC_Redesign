@@ -1,8 +1,10 @@
 
 import React, { useState } from 'react';
-import { User, Menu, ChevronDown, Bell, Search, LogIn, Calendar, MapPin, Bus, Plane, Hotel, HelpCircle, X, Shield, Lock, Mail, Fingerprint, Loader2 } from 'lucide-react';
+import { User, Menu, ChevronDown, Bell, Search, LogIn, Calendar, MapPin, Bus, Plane, Hotel, HelpCircle, X, Shield, Lock, Mail, Fingerprint, Loader2, Sun, Moon } from 'lucide-react';
+import { useTheme } from '../contexts/ThemeContext';
 
 const Header: React.FC = () => {
+  const { theme, toggleTheme } = useTheme();
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -46,7 +48,7 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <header className="sticky top-0 z-50 glass shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
+      <header className="sticky top-0 z-50 glass shadow-[0_10px_30px_rgba(0,0,0,0.3)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.3)] shadow-[0_10px_30px_rgba(0,0,0,0.1)]">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8">
           <div className="flex justify-between items-center h-16 sm:h-20 lg:h-24">
             {/* Logo Section */}
@@ -75,11 +77,11 @@ const Header: React.FC = () => {
                   {/* Futuristic Ring Effect */}
                   <div className="absolute inset-0 border-2 border-cyan-500/0 group-hover:border-cyan-500/50 rounded-full scale-110 group-hover:scale-125 transition-all duration-700"></div>
                 </div>
-                <div className="ml-2 sm:ml-3 lg:ml-5 border-l border-white/10 pl-2 sm:pl-3 lg:pl-5">
-                  <h1 className="text-white font-black text-lg sm:text-xl lg:text-2xl leading-none font-outfit uppercase tracking-[0.1em] sm:tracking-[0.15em] neon-text-blue">
+                <div className="ml-2 sm:ml-3 lg:ml-5 border-l border-white/10 dark:border-white/10 border-gray-400 pl-2 sm:pl-3 lg:pl-5">
+                  <h1 className="text-white dark:text-white text-gray-900 font-black text-lg sm:text-xl lg:text-2xl leading-none font-outfit uppercase tracking-[0.1em] sm:tracking-[0.15em] neon-text-blue">
                     NexGen
                   </h1>
-                  <p className="text-[8px] sm:text-[9px] lg:text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em] sm:tracking-[0.25em] mt-0.5 sm:mt-1 opacity-80">Indian Railways</p>
+                  <p className="text-[8px] sm:text-[9px] lg:text-[10px] text-slate-400 dark:text-slate-400 text-gray-700 font-bold uppercase tracking-[0.2em] sm:tracking-[0.25em] mt-0.5 sm:mt-1 opacity-80 dark:opacity-80 opacity-100">Indian Railways</p>
                 </div>
               </div>
             </div>
@@ -106,7 +108,20 @@ const Header: React.FC = () => {
             </nav>
 
             {/* Actions */}
-            <div className="flex items-center space-x-2 sm:space-x-4 lg:space-x-6">
+            <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4 xl:space-x-6">
+              {/* Theme Toggle Button */}
+              <button
+                onClick={toggleTheme}
+                className="p-2 sm:p-2.5 lg:p-3 bg-white/5 dark:bg-white/5 bg-gray-100 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-gray-200 rounded-xl sm:rounded-2xl text-slate-400 dark:text-slate-400 text-gray-700 hover:text-white dark:hover:text-white hover:text-gray-900 transition-all border border-white/10 dark:border-white/10 border-gray-300 group active:scale-95"
+                title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                aria-label="Toggle theme"
+              >
+                {theme === 'dark' ? (
+                  <Sun className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400 dark:text-yellow-400 text-yellow-600 group-hover:rotate-180 transition-transform duration-500" />
+                ) : (
+                  <Moon className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400 dark:text-cyan-400 text-blue-600 group-hover:-rotate-12 transition-transform duration-500" />
+                )}
+              </button>
               <button
                 onClick={() => setIsLoginOpen(true)}
                 className="hidden sm:flex items-center space-x-2 lg:space-x-3 bg-white/5 hover:bg-white/10 px-3 sm:px-4 lg:px-6 py-2 sm:py-2.5 lg:py-3 rounded-xl sm:rounded-2xl text-white text-[10px] sm:text-xs font-black tracking-widest transition-all border border-white/10 group active:scale-95"
@@ -129,26 +144,26 @@ const Header: React.FC = () => {
         </div>
 
         {/* HUD Sub-Bar */}
-        <div className="bg-black/40 border-t border-white/5 py-2 sm:py-3 backdrop-blur-md">
-          <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0 text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] sm:tracking-[0.2em]">
+        <div className="bg-black/40 dark:bg-black/40 bg-gray-100/90 border-t border-white/5 dark:border-white/5 border-gray-300 py-2 sm:py-3 backdrop-blur-md">
+          <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0 text-[9px] sm:text-[10px] font-black text-slate-400 dark:text-slate-400 text-gray-700 uppercase tracking-[0.15em] sm:tracking-[0.2em]">
             <div className="flex flex-wrap gap-3 sm:gap-4 lg:gap-8 items-center">
-              <div className="flex items-center text-cyan-400/80 animate-pulse">
-                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-cyan-400 rounded-full mr-1.5 sm:mr-2 shadow-[0_0_8px_rgba(0,242,255,1)]"></div>
+              <div className="flex items-center text-cyan-400/80 dark:text-cyan-400/80 text-cyan-600 animate-pulse">
+                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-cyan-400 dark:bg-cyan-400 bg-cyan-600 rounded-full mr-1.5 sm:mr-2 shadow-[0_0_8px_rgba(0,242,255,1)] dark:shadow-[0_0_8px_rgba(0,242,255,1)] shadow-[0_0_8px_rgba(8,145,178,0.8)]"></div>
                 <span className="hidden sm:inline">SYSTEM ONLINE</span>
                 <span className="sm:hidden">ONLINE</span>
               </div>
-              <a href="#" className="hover:text-cyan-400 transition-colors hidden md:inline">PNR Status</a>
-              <a href="#" className="hover:text-cyan-400 transition-colors hidden lg:inline">Train Schedule</a>
-              <a href="#" className="hover:text-orange-400 transition-colors flex items-center">
+              <a href="#" className="hover:text-cyan-400 dark:hover:text-cyan-400 hover:text-cyan-600 transition-colors hidden md:inline">PNR Status</a>
+              <a href="#" className="hover:text-cyan-400 dark:hover:text-cyan-400 hover:text-cyan-600 transition-colors hidden lg:inline">Train Schedule</a>
+              <a href="#" className="hover:text-orange-400 dark:hover:text-orange-400 hover:text-orange-600 transition-colors flex items-center">
                 <span className="mr-1 hidden sm:inline">Vande Bharat</span>
                 <span className="sm:hidden">VB</span>
-                <div className="w-1 h-1 bg-orange-500 rounded-full animate-ping ml-1"></div>
+                <div className="w-1 h-1 bg-orange-500 dark:bg-orange-500 bg-orange-600 rounded-full animate-ping ml-1"></div>
               </a>
             </div>
             <div className="flex items-center space-x-3 sm:space-x-4 lg:space-x-6">
-              <span className="flex items-center hover:text-white cursor-pointer transition-colors text-[9px] sm:text-[10px]"><Bell className="w-2.5 h-2.5 sm:w-3 sm:h-3 mr-1 sm:mr-2" /> <span className="hidden sm:inline">2 New Alerts</span><span className="sm:hidden">2</span></span>
-              <div className="h-3 w-[1px] bg-white/10 hidden sm:block"></div>
-              <span className="flex items-center hover:text-white cursor-pointer transition-colors text-[9px] sm:text-[10px]">EN <ChevronDown className="w-2.5 h-2.5 sm:w-3 sm:h-3 ml-1" /></span>
+              <span className="flex items-center hover:text-white dark:hover:text-white hover:text-gray-900 cursor-pointer transition-colors text-[9px] sm:text-[10px]"><Bell className="w-2.5 h-2.5 sm:w-3 sm:h-3 mr-1 sm:mr-2" /> <span className="hidden sm:inline">2 New Alerts</span><span className="sm:hidden">2</span></span>
+              <div className="h-3 w-[1px] bg-white/10 dark:bg-white/10 bg-gray-400 hidden sm:block"></div>
+              <span className="flex items-center hover:text-white dark:hover:text-white hover:text-gray-900 cursor-pointer transition-colors text-[9px] sm:text-[10px]">EN <ChevronDown className="w-2.5 h-2.5 sm:w-3 sm:h-3 ml-1" /></span>
             </div>
           </div>
         </div>

@@ -61,7 +61,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
   return (
     <div className="relative -mt-12 sm:-mt-16 lg:-mt-24 mx-auto max-w-6xl px-3 sm:px-4 pb-12 sm:pb-16 z-20">
       <div className="glass rounded-[24px] sm:rounded-[32px] lg:rounded-[40px] shadow-[0_40px_100px_rgba(0,0,0,0.6)] overflow-hidden p-1 neon-border">
-        <div className="bg-[#020617]/80 rounded-[23px] sm:rounded-[31px] lg:rounded-[39px] p-4 sm:p-6 lg:p-8 xl:p-12 relative overflow-hidden">
+        <div className="bg-[#020617]/80 dark:bg-[#020617]/80 bg-white/95 rounded-[23px] sm:rounded-[31px] lg:rounded-[39px] p-4 sm:p-6 lg:p-8 xl:p-12 relative overflow-hidden">
           {/* Subtle Background Circuit Pattern */}
           <div className="absolute top-0 right-0 w-64 h-64 opacity-[0.03] pointer-events-none">
             <svg viewBox="0 0 100 100" className="w-full h-full text-white">
@@ -73,18 +73,18 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
 
             {/* From Station */}
             <div className="lg:col-span-3 space-y-2 sm:space-y-3 group">
-              <label className="text-[9px] sm:text-[10px] font-black text-cyan-400 uppercase tracking-[0.2em] sm:tracking-[0.3em] ml-2 neon-text-blue">Departure Hub</label>
+              <label className="text-[9px] sm:text-[10px] font-black text-cyan-400 dark:text-cyan-400 text-cyan-600 uppercase tracking-[0.2em] sm:tracking-[0.3em] ml-2 neon-text-blue">Departure Hub</label>
               <div className="relative">
-                <div className="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 text-cyan-400 z-10 pointer-events-none">
+                <div className="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 text-cyan-400 dark:text-cyan-400 text-cyan-600 z-10 pointer-events-none">
                   <MapPin className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
-                <div className="absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 text-slate-500 z-10 pointer-events-none group-hover:text-cyan-400 transition-colors">
+                <div className="absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-500 text-gray-600 z-10 pointer-events-none group-hover:text-cyan-400 dark:group-hover:text-cyan-400 group-hover:text-cyan-600 transition-colors">
                   <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4" />
                 </div>
                 <select
                   value={from}
                   onChange={(e) => setFrom(e.target.value)}
-                  className="w-full appearance-none pl-10 sm:pl-14 pr-8 sm:pr-10 py-3 sm:py-4 lg:py-5 bg-white/5 border border-white/10 focus:border-cyan-500/50 focus:bg-white/10 rounded-xl sm:rounded-2xl text-white font-bold text-xs sm:text-sm outline-none transition-all cursor-pointer hover:bg-white/10 font-space"
+                  className="w-full appearance-none pl-10 sm:pl-14 pr-8 sm:pr-10 py-3 sm:py-4 lg:py-5 bg-white/5 dark:bg-white/5 bg-gray-50 border border-white/10 dark:border-white/10 border-gray-300 focus:border-cyan-500/50 dark:focus:border-cyan-500/50 focus:border-cyan-600 focus:bg-white/10 dark:focus:bg-white/10 focus:bg-white rounded-xl sm:rounded-2xl text-white dark:text-white text-gray-900 font-bold text-xs sm:text-sm outline-none transition-all cursor-pointer hover:bg-white/10 dark:hover:bg-white/10 hover:bg-gray-100 font-space"
                 >
                   {stations.map((station) => (
                     <option key={`from-${station.code}`} value={station.code} className="bg-[#020617] text-white py-2">
@@ -117,18 +117,18 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
 
             {/* To Station */}
             <div className="lg:col-span-3 space-y-2 sm:space-y-3 group">
-              <label className="text-[9px] sm:text-[10px] font-black text-orange-400 uppercase tracking-[0.2em] sm:tracking-[0.3em] ml-2 neon-text-orange">Destination</label>
+              <label className="text-[9px] sm:text-[10px] font-black text-orange-400 dark:text-orange-400 text-orange-600 uppercase tracking-[0.2em] sm:tracking-[0.3em] ml-2 neon-text-orange">Destination</label>
               <div className="relative">
-                <div className="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 text-orange-500 z-10 pointer-events-none">
+                <div className="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 text-orange-500 dark:text-orange-500 text-orange-600 z-10 pointer-events-none">
                   <MapPin className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
-                <div className="absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 text-slate-500 z-10 pointer-events-none group-hover:text-orange-400 transition-colors">
+                <div className="absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-500 text-gray-600 z-10 pointer-events-none group-hover:text-orange-400 dark:group-hover:text-orange-400 group-hover:text-orange-600 transition-colors">
                   <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4" />
                 </div>
                 <select
                   value={to}
                   onChange={(e) => setTo(e.target.value)}
-                  className="w-full appearance-none pl-10 sm:pl-14 pr-8 sm:pr-10 py-3 sm:py-4 lg:py-5 bg-white/5 border border-white/10 focus:border-orange-500/50 focus:bg-white/10 rounded-xl sm:rounded-2xl text-white font-bold text-xs sm:text-sm outline-none transition-all cursor-pointer hover:bg-white/10 font-space"
+                  className="w-full appearance-none pl-10 sm:pl-14 pr-8 sm:pr-10 py-3 sm:py-4 lg:py-5 bg-white/5 dark:bg-white/5 bg-gray-50 border border-white/10 dark:border-white/10 border-gray-300 focus:border-orange-500/50 dark:focus:border-orange-500/50 focus:border-orange-600 focus:bg-white/10 dark:focus:bg-white/10 focus:bg-white rounded-xl sm:rounded-2xl text-white dark:text-white text-gray-900 font-bold text-xs sm:text-sm outline-none transition-all cursor-pointer hover:bg-white/10 dark:hover:bg-white/10 hover:bg-gray-100 font-space"
                 >
                   {stations.map((station) => (
                     <option key={`to-${station.code}`} value={station.code} className="bg-[#020617] text-white py-2">
@@ -141,16 +141,16 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
 
             {/* Date Selection */}
             <div className="lg:col-span-3 space-y-2 sm:space-y-3 group">
-              <label className="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] sm:tracking-[0.3em] ml-2">Travel Date</label>
+              <label className="text-[9px] sm:text-[10px] font-black text-slate-400 dark:text-slate-400 text-gray-700 uppercase tracking-[0.2em] sm:tracking-[0.3em] ml-2">Travel Date</label>
               <div className="relative">
-                <div className="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 text-slate-500 z-10 pointer-events-none group-hover:text-white transition-colors">
+                <div className="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-500 text-gray-600 z-10 pointer-events-none group-hover:text-white dark:group-hover:text-white group-hover:text-gray-900 transition-colors">
                   <Calendar className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
                 <input
                   type="date"
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
-                  className="w-full pl-10 sm:pl-14 pr-4 sm:pr-6 py-3 sm:py-4 lg:py-5 bg-white/5 border border-white/10 focus:border-white/30 focus:bg-white/10 rounded-xl sm:rounded-2xl text-white font-bold text-xs sm:text-sm outline-none transition-all cursor-pointer font-space [color-scheme:dark] h-[48px] sm:h-[56px] lg:h-[62px]"
+                  className="w-full pl-10 sm:pl-14 pr-4 sm:pr-6 py-3 sm:py-4 lg:py-5 bg-white/5 dark:bg-white/5 bg-gray-50 border border-white/10 dark:border-white/10 border-gray-300 focus:border-white/30 dark:focus:border-white/30 focus:border-gray-400 focus:bg-white/10 dark:focus:bg-white/10 focus:bg-white rounded-xl sm:rounded-2xl text-white dark:text-white text-gray-900 font-bold text-xs sm:text-sm outline-none transition-all cursor-pointer font-space dark:[color-scheme:dark] [color-scheme:light] h-[48px] sm:h-[56px] lg:h-[62px]"
                 />
               </div>
             </div>

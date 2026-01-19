@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>IRCTC NexGen - Futuristic Rail Travel</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class'
+      }
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
       :root {
@@ -18,27 +23,156 @@
         background-color: #020617;
         color: #f8fafc;
         overflow-x: hidden;
+        transition: background-color 0.3s ease, color 0.3s ease;
       }
-      .font-outfit { font-family: 'Outfit', sans-serif; }
-      .font-space { font-family: 'Space Grotesk', sans-serif; }
       
-      .glass {
+      /* Dark Mode Styles (default) */
+      .dark body,
+      .dark {
+        background-color: #020617;
+        color: #f8fafc;
+      }
+      
+      /* Light Mode Styles */
+      .light body,
+      .light {
+        background-color: #ffffff;
+        color: #0f172a;
+      }
+      
+      html:not(.light):not(.dark) {
+        background-color: #020617;
+        color: #f8fafc;
+      }
+      
+      /* Dark Mode Glass (default) */
+      .dark .glass,
+      html:not(.light) .glass {
         background: rgba(15, 23, 42, 0.6);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         border: 1px solid rgba(255, 255, 255, 0.1);
       }
       
-      .neon-border {
+      /* Light Mode Glass */
+      .light .glass {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      }
+      
+      /* Dark Mode Neon Border (default) */
+      .dark .neon-border,
+      html:not(.light) .neon-border {
         border: 1px solid rgba(0, 242, 255, 0.3);
         box-shadow: 0 0 20px rgba(0, 242, 255, 0.1);
       }
       
-      .neon-text-blue {
+      /* Light Mode Neon Border */
+      .light .neon-border {
+        border: 1px solid rgba(6, 182, 212, 0.6);
+        box-shadow: 0 0 20px rgba(6, 182, 212, 0.3), 0 0 40px rgba(6, 182, 212, 0.15);
+      }
+      
+      /* Dark Mode Neon Text (default) */
+      .dark .neon-text-blue,
+      html:not(.light) .neon-text-blue {
         text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
       }
       
-      .neon-text-orange {
+      .dark .neon-text-orange,
+      html:not(.light) .neon-text-orange {
+        text-shadow: 0 0 10px rgba(255, 153, 51, 0.5);
+      }
+      
+      /* Light Mode Neon Text */
+      .light .neon-text-blue {
+        text-shadow: 0 0 10px rgba(6, 182, 212, 0.6), 0 0 20px rgba(6, 182, 212, 0.4);
+      }
+      
+      .light .neon-text-orange {
+        text-shadow: 0 0 10px rgba(249, 115, 22, 0.6), 0 0 20px rgba(249, 115, 22, 0.4);
+      }
+      
+      /* Dark Mode Scrollbar (default) */
+      .dark ::-webkit-scrollbar-track,
+      html:not(.light) ::-webkit-scrollbar-track {
+        background: #020617;
+      }
+      
+      .dark ::-webkit-scrollbar-thumb,
+      html:not(.light) ::-webkit-scrollbar-thumb {
+        background: #1e293b;
+        border: 1px solid rgba(255,255,255,0.05);
+      }
+      
+      .dark ::-webkit-scrollbar-thumb:hover,
+      html:not(.light) ::-webkit-scrollbar-thumb:hover {
+        background: #334155;
+      }
+      
+      /* Light Mode Scrollbar */
+      .light ::-webkit-scrollbar-track {
+        background: #e2e8f0;
+      }
+      
+      .light ::-webkit-scrollbar-thumb {
+        background: #64748b;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+      }
+      
+      .light ::-webkit-scrollbar-thumb:hover {
+        background: #475569;
+      }
+      
+      /* Light mode text color improvements */
+      .light .text-slate-400 {
+        color: #475569 !important;
+      }
+      
+      .light .text-slate-500 {
+        color: #64748b !important;
+      }
+      
+      .light .text-slate-600 {
+        color: #475569 !important;
+      }
+      
+      .light .text-white {
+        color: #0f172a !important;
+      }
+      
+      .light .text-slate-300 {
+        color: #64748b !important;
+      }
+      .font-outfit { font-family: 'Outfit', sans-serif; }
+      .font-space { font-family: 'Space Grotesk', sans-serif; }
+      
+      /* Default glass styles apply when dark class is present or no light class */
+      html:not(.light) .glass,
+      .dark .glass {
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      
+      /* Default neon styles apply when dark class is present or no light class */
+      html:not(.light) .neon-border,
+      .dark .neon-border {
+        border: 1px solid rgba(0, 242, 255, 0.3);
+        box-shadow: 0 0 20px rgba(0, 242, 255, 0.1);
+      }
+      
+      html:not(.light) .neon-text-blue,
+      .dark .neon-text-blue {
+        text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+      }
+      
+      html:not(.light) .neon-text-orange,
+      .dark .neon-text-orange {
         text-shadow: 0 0 10px rgba(255, 153, 51, 0.5);
       }
 
@@ -93,6 +227,27 @@
   <link rel="stylesheet" href="/index.css">
 </head>
   <body>
+    <script>
+      // Initialize theme before React loads
+      (function() {
+        const savedTheme = localStorage.getItem('theme');
+        const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+        const theme = savedTheme || (prefersLight ? 'light' : 'dark');
+        // Remove both classes first
+        document.documentElement.classList.remove('light', 'dark');
+        // Add the correct theme class
+        document.documentElement.classList.add(theme);
+        // Also set data attribute for Tailwind if needed
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
+    <script>
+      // Configure Tailwind dark mode to use class strategy
+      if (typeof tailwind !== 'undefined') {
+        tailwind.config = tailwind.config || {};
+        tailwind.config.darkMode = 'class';
+      }
+    </script>
     <div class="scanline"></div>
     <div id="root"></div>
   <script type="module" src="/index.tsx"></script>

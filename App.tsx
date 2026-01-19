@@ -5,6 +5,7 @@ import Header from './components/Header';
 import SearchForm from './components/SearchForm';
 import TrainCard from './components/TrainCard';
 import Footer from './components/Footer';
+import { ThemeProvider } from './contexts/ThemeContext';
 // Added 'Check' to fix the error in the Class Modules section
 import { Filter, SlidersHorizontal, ArrowUp, Info, ChevronDown, Activity, Globe, Shield, Check, Users, Smartphone, Coffee, Award, Briefcase, Zap, MapPin } from 'lucide-react';
 import { mockTrains } from './data/trains';
@@ -129,8 +130,9 @@ const App: React.FC = () => {
   const filteredTrains = getFilteredTrains();
 
   return (
-    <div className="min-h-screen relative font-inter selection:bg-cyan-500 selection:text-black">
-      <Header />
+    <ThemeProvider>
+      <div className="min-h-screen relative font-inter selection:bg-cyan-500 selection:text-black bg-[#020617] dark:bg-[#020617] light:bg-white transition-colors duration-300">
+        <Header />
 
 
 
@@ -140,8 +142,8 @@ const App: React.FC = () => {
         {/* Hero Section */}
         <section className="relative h-[500px] sm:h-[600px] lg:h-[650px] flex flex-col items-center justify-center text-center px-4 overflow-hidden">
           {/* Hero Train Image Background */}
-          <div className="absolute inset-0 z-0 opacity-10">
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#020617]/60 to-[#020617] z-10"></div>
+          <div className="absolute inset-0 z-0 opacity-10 dark:opacity-10 opacity-5">
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#020617]/60 to-[#020617] dark:via-[#020617]/60 dark:to-[#020617] via-gray-50/60 to-gray-50 z-10"></div>
             <img
               src="/vande-bharat-train.png"
               alt="Background"
@@ -159,31 +161,31 @@ const App: React.FC = () => {
           </div>
 
           <div className="max-w-5xl mx-auto mb-8 sm:mb-12 lg:mb-16 animate-in fade-in zoom-in duration-1000 relative z-20 px-4">
-            <div className="inline-flex items-center space-x-2 sm:space-x-3 bg-white/5 px-3 sm:px-6 py-1.5 sm:py-2 rounded-full border border-white/10 mb-6 sm:mb-8 backdrop-blur-md">
-              <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-cyan-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(0,242,255,1)]"></div>
-              <span className="text-[8px] sm:text-[10px] font-black text-slate-300 tracking-[0.2em] sm:tracking-[0.4em] uppercase">Phase 4.0 Infrastructure Live</span>
+            <div className="inline-flex items-center space-x-2 sm:space-x-3 bg-white/5 dark:bg-white/5 bg-gray-100 px-3 sm:px-6 py-1.5 sm:py-2 rounded-full border border-white/10 dark:border-white/10 border-gray-300 mb-6 sm:mb-8 backdrop-blur-md">
+              <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-cyan-400 dark:bg-cyan-400 bg-cyan-600 rounded-full animate-pulse shadow-[0_0_8px_rgba(0,242,255,1)] dark:shadow-[0_0_8px_rgba(0,242,255,1)] shadow-[0_0_8px_rgba(8,145,178,0.8)]"></div>
+              <span className="text-[8px] sm:text-[10px] font-black text-slate-300 dark:text-slate-300 text-gray-700 tracking-[0.2em] sm:tracking-[0.4em] uppercase">Phase 4.0 Infrastructure Live</span>
             </div>
-            <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-8xl font-black text-white mb-4 sm:mb-6 lg:mb-8 font-outfit tracking-tighter leading-tight px-2">
+            <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-8xl font-black text-white dark:text-white text-gray-900 mb-4 sm:mb-6 lg:mb-8 font-outfit tracking-tighter leading-tight px-2">
               THE FUTURE OF <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 neon-text-blue">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 dark:from-cyan-400 dark:via-blue-500 dark:to-indigo-600 from-cyan-600 via-blue-700 to-indigo-800 neon-text-blue">
                 INDIAN SPEED
               </span>
             </h2>
-            <p className="text-sm sm:text-lg lg:text-xl text-slate-400 font-medium max-w-3xl mx-auto leading-relaxed opacity-90 px-2">
+            <p className="text-sm sm:text-lg lg:text-xl text-slate-400 dark:text-slate-400 text-gray-700 font-medium max-w-3xl mx-auto leading-relaxed opacity-90 dark:opacity-90 opacity-100 px-2">
               Ultra-responsive booking engine paired with the elegance of India's flagship Vande Bharat Express.
             </p>
 
             {/* Futuristic Stats Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mt-8 sm:mt-12 max-w-3xl mx-auto">
               {[
-                { label: 'Max Speed', value: '180', unit: 'KM/H', color: 'cyan' },
-                { label: 'Routes', value: '50+', unit: 'ACTIVE', color: 'orange' },
-                { label: 'Uptime', value: '99.9', unit: '%', color: 'blue' }
+                { label: 'Max Speed', value: '180', unit: 'KM/H', color: 'cyan', darkColor: 'text-cyan-400', lightColor: 'text-cyan-600' },
+                { label: 'Routes', value: '50+', unit: 'ACTIVE', color: 'orange', darkColor: 'text-orange-400', lightColor: 'text-orange-600' },
+                { label: 'Uptime', value: '99.9', unit: '%', color: 'blue', darkColor: 'text-blue-400', lightColor: 'text-blue-600' }
               ].map((stat) => (
-                <div key={stat.label} className="glass p-4 sm:p-5 rounded-2xl border border-white/10 backdrop-blur-md hover:border-${stat.color}-500/30 transition-all group">
-                  <div className={`text-2xl sm:text-3xl font-black text-${stat.color}-400 font-outfit`}>{stat.value}</div>
-                  <div className="text-[8px] sm:text-[9px] text-slate-500 uppercase tracking-widest mt-1">{stat.unit}</div>
-                  <div className="text-[7px] sm:text-[8px] text-slate-600 uppercase tracking-wider mt-1">{stat.label}</div>
+                <div key={stat.label} className="glass p-4 sm:p-5 rounded-2xl border border-white/10 dark:border-white/10 border-gray-300 backdrop-blur-md hover:border-cyan-500/30 dark:hover:border-cyan-500/30 hover:border-cyan-600/50 transition-all group">
+                  <div className={`text-2xl sm:text-3xl font-black ${stat.darkColor} dark:${stat.darkColor} ${stat.lightColor} font-outfit`}>{stat.value}</div>
+                  <div className="text-[8px] sm:text-[9px] text-slate-500 dark:text-slate-500 text-gray-600 uppercase tracking-widest mt-1">{stat.unit}</div>
+                  <div className="text-[7px] sm:text-[8px] text-slate-600 dark:text-slate-600 text-gray-700 uppercase tracking-wider mt-1">{stat.label}</div>
                 </div>
               ))}
             </div>
@@ -200,14 +202,14 @@ const App: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 sm:mt-16 lg:mt-20 relative z-10">
           {/* Mobile Filter Toggle Button */}
           <div className="xl:hidden mb-6 flex items-center justify-between">
-            <h2 className="text-xl sm:text-2xl font-black text-white font-outfit tracking-tight">
-              Available Vectors <span className="text-cyan-500">({String(filteredTrains.length).padStart(2, '0')})</span>
+            <h2 className="text-xl sm:text-2xl font-black text-white dark:text-white text-gray-900 font-outfit tracking-tight">
+              Available Vectors <span className="text-cyan-500 dark:text-cyan-500 text-cyan-600">({String(filteredTrains.length).padStart(2, '0')})</span>
             </h2>
             <button
               onClick={() => setIsFiltersOpen(!isFiltersOpen)}
-              className="flex items-center space-x-2 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-white text-xs font-black uppercase tracking-widest transition-all"
+              className="flex items-center space-x-2 px-4 py-2 bg-white/5 dark:bg-white/5 bg-gray-100 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-gray-200 border border-white/10 dark:border-white/10 border-gray-300 rounded-xl text-white dark:text-white text-gray-900 text-xs font-black uppercase tracking-widest transition-all"
             >
-              <SlidersHorizontal className="w-4 h-4 text-cyan-400" />
+              <SlidersHorizontal className="w-4 h-4 text-cyan-400 dark:text-cyan-400 text-cyan-600" />
               <span>Filters</span>
             </button>
           </div>
@@ -217,15 +219,15 @@ const App: React.FC = () => {
             {/* Sidebar Filters */}
             <aside className={`xl:w-80 shrink-0 ${isFiltersOpen ? 'block' : 'hidden'} xl:block`}>
               <div className="glass sticky top-24 xl:top-36 rounded-[24px] sm:rounded-[36px] overflow-hidden p-1 shadow-2xl neon-border">
-                <div className="bg-[#020617]/90 rounded-[35px] p-8">
+                <div className="bg-[#020617]/90 dark:bg-[#020617]/90 bg-white/95 rounded-[35px] p-8">
                   <div className="flex items-center justify-between mb-10">
-                    <h3 className="text-[11px] font-black text-white uppercase tracking-[0.3em] flex items-center">
-                      <SlidersHorizontal className="w-4 h-4 mr-3 text-cyan-400" />
+                    <h3 className="text-[11px] font-black text-white dark:text-white text-gray-900 uppercase tracking-[0.3em] flex items-center">
+                      <SlidersHorizontal className="w-4 h-4 mr-3 text-cyan-400 dark:text-cyan-400 text-cyan-600" />
                       Parameters
                     </h3>
                     <button
                       onClick={resetFilters}
-                      className="text-[9px] font-black text-cyan-500 uppercase tracking-widest hover:text-white transition-colors"
+                      className="text-[9px] font-black text-cyan-500 dark:text-cyan-500 text-cyan-600 uppercase tracking-widest hover:text-white dark:hover:text-white hover:text-gray-900 transition-colors"
                     >
                       Reset
                     </button>
@@ -233,7 +235,7 @@ const App: React.FC = () => {
 
                   <div className="space-y-10">
                     <div>
-                      <h4 className="text-[9px] font-black text-slate-500 uppercase tracking-[0.4em] mb-6">Class Modules</h4>
+                      <h4 className="text-[9px] font-black text-slate-500 dark:text-slate-500 text-gray-700 uppercase tracking-[0.4em] mb-6">Class Modules</h4>
                       <div className="space-y-4">
                         {['AC First Class', 'AC 2 Tier', 'AC 3 Tier', 'Sleeper', 'Vande Bharat EC'].map((cls) => (
                           <label key={cls} className="flex items-center space-x-4 cursor-pointer group">
@@ -244,17 +246,17 @@ const App: React.FC = () => {
                                 checked={selectedClasses.includes(cls)}
                                 onChange={() => toggleClass(cls)}
                               />
-                              <div className="w-full h-full border border-white/20 rounded-md bg-white/5 peer-checked:bg-cyan-500 peer-checked:border-cyan-400 transition-all"></div>
-                              <Check className="w-3 h-3 text-black font-black hidden peer-checked:block absolute z-10 pointer-events-none" />
+                              <div className="w-full h-full border border-white/20 dark:border-white/20 border-gray-400 rounded-md bg-white/5 dark:bg-white/5 bg-gray-100 peer-checked:bg-cyan-500 dark:peer-checked:bg-cyan-500 peer-checked:bg-cyan-600 peer-checked:border-cyan-400 dark:peer-checked:border-cyan-400 peer-checked:border-cyan-600 transition-all"></div>
+                              <Check className="w-3 h-3 text-black dark:text-black text-white font-black hidden peer-checked:block absolute z-10 pointer-events-none" />
                             </div>
-                            <span className="text-[11px] font-bold text-slate-400 group-hover:text-white transition-colors uppercase tracking-widest">{cls}</span>
+                            <span className="text-[11px] font-bold text-slate-400 dark:text-slate-400 text-gray-700 group-hover:text-white dark:group-hover:text-white group-hover:text-gray-900 transition-colors uppercase tracking-widest">{cls}</span>
                           </label>
                         ))}
                       </div>
                     </div>
 
                     <div>
-                      <h4 className="text-[9px] font-black text-slate-500 uppercase tracking-[0.4em] mb-6">Temporal Window</h4>
+                      <h4 className="text-[9px] font-black text-slate-500 dark:text-slate-500 text-gray-700 uppercase tracking-[0.4em] mb-6">Temporal Window</h4>
                       <div className="grid grid-cols-2 gap-3">
                         {['00-06h', '06-12h', '12-18h', '18-24h'].map((time) => (
                           <button
@@ -262,8 +264,8 @@ const App: React.FC = () => {
                             onClick={() => toggleTimeSlot(time)}
                             className={`px-3 py-3 rounded-xl border text-[10px] font-bold transition-all uppercase tracking-widest
                               ${selectedTimeSlots.includes(time)
-                                ? 'bg-cyan-500 border-cyan-400 text-black shadow-[0_0_15px_rgba(0,242,255,0.3)]'
-                                : 'bg-white/5 border-white/5 text-slate-500 hover:bg-white/10 hover:text-white hover:border-white/20'
+                                ? 'bg-cyan-500 dark:bg-cyan-500 bg-cyan-600 border-cyan-400 dark:border-cyan-400 border-cyan-700 text-black dark:text-black text-white shadow-[0_0_15px_rgba(0,242,255,0.3)] dark:shadow-[0_0_15px_rgba(0,242,255,0.3)] shadow-[0_0_15px_rgba(8,145,178,0.4)]'
+                                : 'bg-white/5 dark:bg-white/5 bg-gray-100 border-white/5 dark:border-white/5 border-gray-300 text-slate-500 dark:text-slate-500 text-gray-700 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-gray-200 hover:text-white dark:hover:text-white hover:text-gray-900 hover:border-white/20 dark:hover:border-white/20 hover:border-gray-400'
                               }`}
                           >
                             {time}
@@ -272,12 +274,12 @@ const App: React.FC = () => {
                       </div>
                     </div>
 
-                    <div className="pt-6 border-t border-white/5">
-                      <div className="p-5 bg-white/5 rounded-2xl border border-white/5 flex items-center space-x-4">
-                        <Activity className="w-6 h-6 text-cyan-500" />
+                    <div className="pt-6 border-t border-white/5 dark:border-white/5 border-gray-300">
+                      <div className="p-5 bg-white/5 dark:bg-white/5 bg-gray-100 rounded-2xl border border-white/5 dark:border-white/5 border-gray-300 flex items-center space-x-4">
+                        <Activity className="w-6 h-6 text-cyan-500 dark:text-cyan-500 text-cyan-600" />
                         <div>
-                          <div className="text-[10px] font-black text-white">NETWORK LOAD</div>
-                          <div className="text-[9px] text-slate-500 uppercase">OPTIMAL - 42ms</div>
+                          <div className="text-[10px] font-black text-white dark:text-white text-gray-900">NETWORK LOAD</div>
+                          <div className="text-[9px] text-slate-500 dark:text-slate-500 text-gray-600 uppercase">OPTIMAL - 42ms</div>
                         </div>
                       </div>
                     </div>
@@ -291,24 +293,24 @@ const App: React.FC = () => {
               {/* Sort & Info Bar */}
               <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between mb-8 sm:mb-12 gap-4 sm:gap-6 lg:gap-8 px-2 sm:px-4">
                 <div className="space-y-2 w-full lg:w-auto">
-                  <h2 className="text-2xl sm:text-3xl font-black text-white font-outfit tracking-tight">
-                    Available Vectors <span className="text-cyan-500">({String(filteredTrains.length).padStart(2, '0')})</span>
+                  <h2 className="text-2xl sm:text-3xl font-black text-white dark:text-white text-gray-900 font-outfit tracking-tight">
+                    Available Vectors <span className="text-cyan-500 dark:text-cyan-500 text-cyan-600">({String(filteredTrains.length).padStart(2, '0')})</span>
                   </h2>
-                  <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-[9px] sm:text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] sm:tracking-[0.3em]">
-                    <span className="flex items-center text-cyan-400"><Globe className="w-3 h-3 mr-1 sm:mr-2" /> NDLS Hub</span>
-                    <span className="text-white/20 hidden sm:inline">|</span>
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-[9px] sm:text-[10px] font-black text-slate-500 dark:text-slate-500 text-gray-600 uppercase tracking-[0.2em] sm:tracking-[0.3em]">
+                    <span className="flex items-center text-cyan-400 dark:text-cyan-400 text-cyan-600"><Globe className="w-3 h-3 mr-1 sm:mr-2" /> NDLS Hub</span>
+                    <span className="text-white/20 dark:text-white/20 text-gray-400 hidden sm:inline">|</span>
                     <span>Varanasi Vector</span>
-                    <span className="text-white/20 hidden sm:inline">|</span>
-                    <span className="text-slate-300">15 Dec 2024</span>
+                    <span className="text-white/20 dark:text-white/20 text-gray-400 hidden sm:inline">|</span>
+                    <span className="text-slate-300 dark:text-slate-300 text-gray-700">15 Dec 2024</span>
                   </div>
                 </div>
-                <div className="flex items-center bg-white/5 p-1 sm:p-2 rounded-xl sm:rounded-2xl border border-white/10 backdrop-blur-md w-full lg:w-auto">
+                <div className="flex items-center bg-white/5 dark:bg-white/5 bg-gray-100 p-1 sm:p-2 rounded-xl sm:rounded-2xl border border-white/10 dark:border-white/10 border-gray-300 backdrop-blur-md w-full lg:w-auto">
                   <button
                     onClick={() => setSortBy('optimized')}
                     className={`flex-1 sm:flex-initial px-3 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all
                       ${sortBy === 'optimized'
-                        ? 'bg-cyan-500 text-black shadow-lg shadow-cyan-500/20'
-                        : 'text-slate-400 hover:text-white'
+                        ? 'bg-cyan-500 dark:bg-cyan-500 bg-cyan-600 text-black dark:text-black text-white shadow-lg shadow-cyan-500/20 dark:shadow-cyan-500/20 shadow-cyan-600/30'
+                        : 'text-slate-400 dark:text-slate-400 text-gray-700 hover:text-white dark:hover:text-white hover:text-gray-900'
                       }`}
                   >
                     Optimized
@@ -317,8 +319,8 @@ const App: React.FC = () => {
                     onClick={() => setSortBy('credits')}
                     className={`flex-1 sm:flex-initial px-3 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all
                       ${sortBy === 'credits'
-                        ? 'bg-cyan-500 text-black shadow-lg shadow-cyan-500/20'
-                        : 'text-slate-400 hover:text-white'
+                        ? 'bg-cyan-500 dark:bg-cyan-500 bg-cyan-600 text-black dark:text-black text-white shadow-lg shadow-cyan-500/20 dark:shadow-cyan-500/20 shadow-cyan-600/30'
+                        : 'text-slate-400 dark:text-slate-400 text-gray-700 hover:text-white dark:hover:text-white hover:text-gray-900'
                       }`}
                   >
                     Credits
@@ -327,8 +329,8 @@ const App: React.FC = () => {
                     onClick={() => setSortBy('timeline')}
                     className={`flex-1 sm:flex-initial px-3 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all
                       ${sortBy === 'timeline'
-                        ? 'bg-cyan-500 text-black shadow-lg shadow-cyan-500/20'
-                        : 'text-slate-400 hover:text-white'
+                        ? 'bg-cyan-500 dark:bg-cyan-500 bg-cyan-600 text-black dark:text-black text-white shadow-lg shadow-cyan-500/20 dark:shadow-cyan-500/20 shadow-cyan-600/30'
+                        : 'text-slate-400 dark:text-slate-400 text-gray-700 hover:text-white dark:hover:text-white hover:text-gray-900'
                       }`}
                   >
                     Timeline
@@ -601,7 +603,8 @@ const App: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </ThemeProvider>
   );
 };
 

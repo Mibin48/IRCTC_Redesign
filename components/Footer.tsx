@@ -5,7 +5,7 @@ import { Phone, Mail, Smartphone } from 'lucide-react';
 
 const Footer: React.FC = () => {
   return (
-    <footer className="relative bg-[#020617] text-slate-400 pt-12 sm:pt-16 lg:pt-20 pb-8 sm:pb-10 border-t border-white/5 overflow-hidden">
+    <footer className="relative bg-[#020617] dark:bg-[#020617] bg-gray-50 text-slate-400 dark:text-slate-400 text-gray-700 pt-12 sm:pt-16 lg:pt-20 pb-8 sm:pb-10 border-t border-white/5 dark:border-white/5 border-gray-300 overflow-hidden">
       {/* Decorative Elements */}
       <div className="absolute top-0 left-1/4 w-64 sm:w-96 h-64 sm:h-96 bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none"></div>
       <div className="absolute bottom-0 right-0 w-64 sm:w-96 h-64 sm:h-96 bg-orange-500/5 rounded-full blur-[100px] pointer-events-none"></div>
@@ -18,11 +18,11 @@ const Footer: React.FC = () => {
                 <img src="/logo-irctc.png" className="w-full h-full object-contain" alt="IRCTC" />
               </div>
               <div className="flex flex-col">
-                <span className="text-white font-black tracking-tighter text-base sm:text-lg leading-none">IRCTC</span>
-                <span className="text-[9px] sm:text-[10px] font-bold text-cyan-500 tracking-[0.15em] sm:tracking-[0.2em] uppercase">NexGen 4.0</span>
+                <span className="text-white dark:text-white text-gray-900 font-black tracking-tighter text-base sm:text-lg leading-none">IRCTC</span>
+                <span className="text-[9px] sm:text-[10px] font-bold text-cyan-500 dark:text-cyan-500 text-cyan-600 tracking-[0.15em] sm:tracking-[0.2em] uppercase">NexGen 4.0</span>
               </div>
             </div>
-            <p className="text-xs sm:text-sm leading-relaxed text-slate-500 font-medium max-w-xs">
+            <p className="text-xs sm:text-sm leading-relaxed text-slate-500 dark:text-slate-500 text-gray-600 font-medium max-w-xs">
               Pioneering the future of Indian high-speed rail travel with quantum-encrypted ticketing and AI-driven logistics.
             </p>
           </div>
