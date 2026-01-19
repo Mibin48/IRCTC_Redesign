@@ -1,0 +1,8 @@
+
+{
+  "name": "IRCTC NexGen - Vande Bharat Experience",
+  "description": "A futuristic redesign of the IRCTC train search page featuring a high-fidelity animated Vande Bharat Express and a premium, glassmorphic UI.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
