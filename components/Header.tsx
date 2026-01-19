@@ -47,10 +47,10 @@ const Header: React.FC = () => {
   return (
     <>
       <header className="sticky top-0 z-50 glass shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-24">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8">
+          <div className="flex justify-between items-center h-16 sm:h-20 lg:h-24">
             {/* Logo Section */}
-            <div className="flex items-center space-x-6">
+            <div className="flex items-center space-x-3 sm:space-x-4 lg:space-x-6">
               <div className="flex items-center group cursor-pointer">
                 <div className="relative">
                   {/* Holographic Glow Background */}
@@ -68,18 +68,18 @@ const Header: React.FC = () => {
                   <img
                     src="/logo-irctc.png"
                     alt="IRCTC Logo"
-                    className="h-20 w-auto relative z-10 transition-all duration-500 group-hover:scale-110 group-hover:brightness-110 drop-shadow-[0_0_15px_rgba(0,242,255,0.5)]"
+                    className="h-12 sm:h-16 lg:h-20 w-auto relative z-10 transition-all duration-500 group-hover:scale-110 group-hover:brightness-110 drop-shadow-[0_0_15px_rgba(0,242,255,0.5)]"
                     style={{ filter: 'drop-shadow(0 0 20px rgba(59, 130, 246, 0.4))' }}
                   />
 
                   {/* Futuristic Ring Effect */}
                   <div className="absolute inset-0 border-2 border-cyan-500/0 group-hover:border-cyan-500/50 rounded-full scale-110 group-hover:scale-125 transition-all duration-700"></div>
                 </div>
-                <div className="ml-5 border-l border-white/10 pl-5">
-                  <h1 className="text-white font-black text-2xl leading-none font-outfit uppercase tracking-[0.15em] neon-text-blue">
+                <div className="ml-2 sm:ml-3 lg:ml-5 border-l border-white/10 pl-2 sm:pl-3 lg:pl-5">
+                  <h1 className="text-white font-black text-lg sm:text-xl lg:text-2xl leading-none font-outfit uppercase tracking-[0.1em] sm:tracking-[0.15em] neon-text-blue">
                     NexGen
                   </h1>
-                  <p className="text-[10px] text-slate-400 font-bold uppercase tracking-[0.25em] mt-1 opacity-80">Indian Railways</p>
+                  <p className="text-[8px] sm:text-[9px] lg:text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em] sm:tracking-[0.25em] mt-0.5 sm:mt-1 opacity-80">Indian Railways</p>
                 </div>
               </div>
             </div>
@@ -106,46 +106,49 @@ const Header: React.FC = () => {
             </nav>
 
             {/* Actions */}
-            <div className="flex items-center space-x-6">
+            <div className="flex items-center space-x-2 sm:space-x-4 lg:space-x-6">
               <button
                 onClick={() => setIsLoginOpen(true)}
-                className="flex items-center space-x-3 bg-white/5 hover:bg-white/10 px-6 py-3 rounded-2xl text-white text-xs font-black tracking-widest transition-all border border-white/10 group active:scale-95"
+                className="hidden sm:flex items-center space-x-2 lg:space-x-3 bg-white/5 hover:bg-white/10 px-3 sm:px-4 lg:px-6 py-2 sm:py-2.5 lg:py-3 rounded-xl sm:rounded-2xl text-white text-[10px] sm:text-xs font-black tracking-widest transition-all border border-white/10 group active:scale-95"
               >
-                <LogIn className="w-4 h-4 text-cyan-400 group-hover:rotate-12 transition-transform" />
-                <span>LOGIN</span>
+                <LogIn className="w-3 h-3 sm:w-4 sm:h-4 text-cyan-400 group-hover:rotate-12 transition-transform" />
+                <span className="hidden lg:inline">LOGIN</span>
               </button>
               <button
                 onClick={() => setIsRegisterOpen(true)}
-                className="vande-bharat-orange text-white px-8 py-3 rounded-2xl text-xs font-black tracking-widest hover:shadow-[0_0_25px_rgba(255,153,51,0.4)] transition-all active:scale-95 shadow-lg"
+                className="hidden sm:block vande-bharat-orange text-white px-4 sm:px-6 lg:px-8 py-2 sm:py-2.5 lg:py-3 rounded-xl sm:rounded-2xl text-[10px] sm:text-xs font-black tracking-widest hover:shadow-[0_0_25px_rgba(255,153,51,0.4)] transition-all active:scale-95 shadow-lg"
               >
-                REGISTER
+                <span className="hidden lg:inline">REGISTER</span>
+                <span className="lg:hidden">REG</span>
               </button>
-              <button className="p-3 text-slate-400 hover:text-white transition-colors xl:hidden">
-                <Menu className="w-8 h-8" />
+              <button className="p-2 sm:p-3 text-slate-400 hover:text-white transition-colors xl:hidden">
+                <Menu className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8" />
               </button>
             </div>
           </div>
         </div>
 
         {/* HUD Sub-Bar */}
-        <div className="bg-black/40 border-t border-white/5 py-3 backdrop-blur-md">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
-            <div className="flex space-x-8 items-center">
+        <div className="bg-black/40 border-t border-white/5 py-2 sm:py-3 backdrop-blur-md">
+          <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0 text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] sm:tracking-[0.2em]">
+            <div className="flex flex-wrap gap-3 sm:gap-4 lg:gap-8 items-center">
               <div className="flex items-center text-cyan-400/80 animate-pulse">
-                <div className="w-2 h-2 bg-cyan-400 rounded-full mr-2 shadow-[0_0_8px_rgba(0,242,255,1)]"></div>
-                SYSTEM ONLINE
+                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-cyan-400 rounded-full mr-1.5 sm:mr-2 shadow-[0_0_8px_rgba(0,242,255,1)]"></div>
+                <span className="hidden sm:inline">SYSTEM ONLINE</span>
+                <span className="sm:hidden">ONLINE</span>
               </div>
-              <a href="#" className="hover:text-cyan-400 transition-colors">PNR Status</a>
-              <a href="#" className="hover:text-cyan-400 transition-colors">Train Schedule</a>
+              <a href="#" className="hover:text-cyan-400 transition-colors hidden md:inline">PNR Status</a>
+              <a href="#" className="hover:text-cyan-400 transition-colors hidden lg:inline">Train Schedule</a>
               <a href="#" className="hover:text-orange-400 transition-colors flex items-center">
-                <span className="mr-1">Vande Bharat</span>
-                <div className="w-1 h-1 bg-orange-500 rounded-full animate-ping"></div>
+                <span className="mr-1 hidden sm:inline">Vande Bharat</span>
+                <span className="sm:hidden">VB</span>
+                <div className="w-1 h-1 bg-orange-500 rounded-full animate-ping ml-1"></div>
               </a>
             </div>
-            <div className="flex items-center space-x-6">
-              <span className="flex items-center hover:text-white cursor-pointer transition-colors"><Bell className="w-3 h-3 mr-2" /> 2 New Alerts</span>
-              <div className="h-3 w-[1px] bg-white/10"></div>
-              <span className="flex items-center hover:text-white cursor-pointer transition-colors">EN <ChevronDown className="w-3 h-3 ml-1" /></span>
+            <div className="flex items-center space-x-3 sm:space-x-4 lg:space-x-6">
+              <span className="flex items-center hover:text-white cursor-pointer transition-colors text-[9px] sm:text-[10px]"><Bell className="w-2.5 h-2.5 sm:w-3 sm:h-3 mr-1 sm:mr-2" /> <span className="hidden sm:inline">2 New Alerts</span><span className="sm:hidden">2</span></span>
+              <div className="h-3 w-[1px] bg-white/10 hidden sm:block"></div>
+              <span className="flex items-center hover:text-white cursor-pointer transition-colors text-[9px] sm:text-[10px]">EN <ChevronDown className="w-2.5 h-2.5 sm:w-3 sm:h-3 ml-1" /></span>
             </div>
           </div>
         </div>
@@ -159,7 +162,7 @@ const Header: React.FC = () => {
             onClick={() => setIsLoginOpen(false)}
           ></div>
 
-          <div className="relative w-full max-w-md bg-[#0a1020] border border-white/10 rounded-[30px] p-8 shadow-[0_0_100px_rgba(0,242,255,0.1)] animate-in zoom-in-95 duration-300 overflow-hidden">
+          <div className="relative w-full max-w-md bg-[#0a1020] border border-white/10 rounded-[20px] sm:rounded-[30px] p-6 sm:p-8 shadow-[0_0_100px_rgba(0,242,255,0.1)] animate-in zoom-in-95 duration-300 overflow-hidden mx-4">
             {/* Modal Decorations */}
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent"></div>
             <div className="absolute -right-20 -top-20 w-40 h-40 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
@@ -249,7 +252,7 @@ const Header: React.FC = () => {
             onClick={() => setIsRegisterOpen(false)}
           ></div>
 
-          <div className="relative w-full max-w-lg bg-[#0a1020] border border-white/10 rounded-[40px] p-10 shadow-[0_0_100px_rgba(255,153,51,0.1)] animate-in zoom-in-95 duration-300 overflow-hidden">
+          <div className="relative w-full max-w-lg bg-[#0a1020] border border-white/10 rounded-[24px] sm:rounded-[32px] lg:rounded-[40px] p-6 sm:p-8 lg:p-10 shadow-[0_0_100px_rgba(255,153,51,0.1)] animate-in zoom-in-95 duration-300 overflow-hidden mx-4">
             {/* Modal Decorations */}
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-orange-500 to-transparent"></div>
             <div className="absolute -left-20 -bottom-20 w-40 h-40 bg-orange-500/10 rounded-full blur-3xl pointer-events-none"></div>
@@ -269,7 +272,7 @@ const Header: React.FC = () => {
               <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">Join the NexGen Railway Network</p>
             </div>
 
-            <form onSubmit={handleRegister} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <form onSubmit={handleRegister} className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               <div className="space-y-2">
                 <label className="text-[9px] font-black text-orange-400 uppercase tracking-[0.3em] ml-2">Full Name</label>
                 <div className="relative group">
