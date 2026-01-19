@@ -59,9 +59,9 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
   };
 
   return (
-    <div className="relative -mt-16 lg:-mt-24 mx-auto max-w-6xl px-4 pb-16 z-20">
-      <div className="glass rounded-[40px] shadow-[0_40px_100px_rgba(0,0,0,0.6)] overflow-hidden p-1 neon-border">
-        <div className="bg-[#020617]/80 rounded-[39px] p-8 lg:p-12 relative overflow-hidden">
+    <div className="relative -mt-12 sm:-mt-16 lg:-mt-24 mx-auto max-w-6xl px-3 sm:px-4 pb-12 sm:pb-16 z-20">
+      <div className="glass rounded-[24px] sm:rounded-[32px] lg:rounded-[40px] shadow-[0_40px_100px_rgba(0,0,0,0.6)] overflow-hidden p-1 neon-border">
+        <div className="bg-[#020617]/80 rounded-[23px] sm:rounded-[31px] lg:rounded-[39px] p-4 sm:p-6 lg:p-8 xl:p-12 relative overflow-hidden">
           {/* Subtle Background Circuit Pattern */}
           <div className="absolute top-0 right-0 w-64 h-64 opacity-[0.03] pointer-events-none">
             <svg viewBox="0 0 100 100" className="w-full h-full text-white">
@@ -69,22 +69,22 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
             </svg>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-8 items-end">
 
             {/* From Station */}
-            <div className="lg:col-span-3 space-y-3 group">
-              <label className="text-[10px] font-black text-cyan-400 uppercase tracking-[0.3em] ml-2 neon-text-blue">Departure Hub</label>
+            <div className="lg:col-span-3 space-y-2 sm:space-y-3 group">
+              <label className="text-[9px] sm:text-[10px] font-black text-cyan-400 uppercase tracking-[0.2em] sm:tracking-[0.3em] ml-2 neon-text-blue">Departure Hub</label>
               <div className="relative">
-                <div className="absolute left-5 top-1/2 -translate-y-1/2 text-cyan-400 z-10 pointer-events-none">
-                  <MapPin className="w-5 h-5" />
+                <div className="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 text-cyan-400 z-10 pointer-events-none">
+                  <MapPin className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
-                <div className="absolute right-5 top-1/2 -translate-y-1/2 text-slate-500 z-10 pointer-events-none group-hover:text-cyan-400 transition-colors">
-                  <ChevronDown className="w-4 h-4" />
+                <div className="absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 text-slate-500 z-10 pointer-events-none group-hover:text-cyan-400 transition-colors">
+                  <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4" />
                 </div>
                 <select
                   value={from}
                   onChange={(e) => setFrom(e.target.value)}
-                  className="w-full appearance-none pl-14 pr-10 py-5 bg-white/5 border border-white/10 focus:border-cyan-500/50 focus:bg-white/10 rounded-2xl text-white font-bold text-sm outline-none transition-all cursor-pointer hover:bg-white/10 font-space"
+                  className="w-full appearance-none pl-10 sm:pl-14 pr-8 sm:pr-10 py-3 sm:py-4 lg:py-5 bg-white/5 border border-white/10 focus:border-cyan-500/50 focus:bg-white/10 rounded-xl sm:rounded-2xl text-white font-bold text-xs sm:text-sm outline-none transition-all cursor-pointer hover:bg-white/10 font-space"
                 >
                   {stations.map((station) => (
                     <option key={`from-${station.code}`} value={station.code} className="bg-[#020617] text-white py-2">
@@ -105,20 +105,30 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
               </button>
             </div>
 
+            {/* Mobile Swap Button */}
+            <div className="lg:hidden flex justify-center -mt-2 mb-2">
+              <button
+                onClick={handleSwap}
+                className="p-3 rounded-full bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 transition-all hover:rotate-180 duration-500 shadow-[0_0_15px_rgba(0,242,255,0.1)] active:scale-95"
+              >
+                <ArrowLeftRight className="w-4 h-4" />
+              </button>
+            </div>
+
             {/* To Station */}
-            <div className="lg:col-span-3 space-y-3 group">
-              <label className="text-[10px] font-black text-orange-400 uppercase tracking-[0.3em] ml-2 neon-text-orange">Destination</label>
+            <div className="lg:col-span-3 space-y-2 sm:space-y-3 group">
+              <label className="text-[9px] sm:text-[10px] font-black text-orange-400 uppercase tracking-[0.2em] sm:tracking-[0.3em] ml-2 neon-text-orange">Destination</label>
               <div className="relative">
-                <div className="absolute left-5 top-1/2 -translate-y-1/2 text-orange-500 z-10 pointer-events-none">
-                  <MapPin className="w-5 h-5" />
+                <div className="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 text-orange-500 z-10 pointer-events-none">
+                  <MapPin className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
-                <div className="absolute right-5 top-1/2 -translate-y-1/2 text-slate-500 z-10 pointer-events-none group-hover:text-orange-400 transition-colors">
-                  <ChevronDown className="w-4 h-4" />
+                <div className="absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 text-slate-500 z-10 pointer-events-none group-hover:text-orange-400 transition-colors">
+                  <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4" />
                 </div>
                 <select
                   value={to}
                   onChange={(e) => setTo(e.target.value)}
-                  className="w-full appearance-none pl-14 pr-10 py-5 bg-white/5 border border-white/10 focus:border-orange-500/50 focus:bg-white/10 rounded-2xl text-white font-bold text-sm outline-none transition-all cursor-pointer hover:bg-white/10 font-space"
+                  className="w-full appearance-none pl-10 sm:pl-14 pr-8 sm:pr-10 py-3 sm:py-4 lg:py-5 bg-white/5 border border-white/10 focus:border-orange-500/50 focus:bg-white/10 rounded-xl sm:rounded-2xl text-white font-bold text-xs sm:text-sm outline-none transition-all cursor-pointer hover:bg-white/10 font-space"
                 >
                   {stations.map((station) => (
                     <option key={`to-${station.code}`} value={station.code} className="bg-[#020617] text-white py-2">
@@ -130,17 +140,17 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
             </div>
 
             {/* Date Selection */}
-            <div className="lg:col-span-3 space-y-3 group">
-              <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] ml-2">Travel Date</label>
+            <div className="lg:col-span-3 space-y-2 sm:space-y-3 group">
+              <label className="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] sm:tracking-[0.3em] ml-2">Travel Date</label>
               <div className="relative">
-                <div className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-500 z-10 pointer-events-none group-hover:text-white transition-colors">
-                  <Calendar className="w-5 h-5" />
+                <div className="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 text-slate-500 z-10 pointer-events-none group-hover:text-white transition-colors">
+                  <Calendar className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
                 <input
                   type="date"
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
-                  className="w-full pl-14 pr-6 py-5 bg-white/5 border border-white/10 focus:border-white/30 focus:bg-white/10 rounded-2xl text-white font-bold text-sm outline-none transition-all cursor-pointer font-space [color-scheme:dark] h-[62px]"
+                  className="w-full pl-10 sm:pl-14 pr-4 sm:pr-6 py-3 sm:py-4 lg:py-5 bg-white/5 border border-white/10 focus:border-white/30 focus:bg-white/10 rounded-xl sm:rounded-2xl text-white font-bold text-xs sm:text-sm outline-none transition-all cursor-pointer font-space [color-scheme:dark] h-[48px] sm:h-[56px] lg:h-[62px]"
                 />
               </div>
             </div>
@@ -150,27 +160,27 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
               <button
                 onClick={handleSearch}
                 disabled={isSearching}
-                className="relative w-full h-[62px] vande-bharat-orange hover:scale-[1.02] active:scale-95 text-white font-black rounded-2xl flex items-center justify-center space-x-3 transition-all group shadow-[0_15px_40px_rgba(255,153,51,0.3)] hover:shadow-[0_20px_50px_rgba(255,153,51,0.5)] disabled:opacity-70 disabled:cursor-not-allowed overflow-hidden"
+                className="relative w-full h-[48px] sm:h-[56px] lg:h-[62px] vande-bharat-orange hover:scale-[1.02] active:scale-95 text-white font-black rounded-xl sm:rounded-2xl flex items-center justify-center space-x-2 sm:space-x-3 transition-all group shadow-[0_15px_40px_rgba(255,153,51,0.3)] hover:shadow-[0_20px_50px_rgba(255,153,51,0.5)] disabled:opacity-70 disabled:cursor-not-allowed overflow-hidden"
               >
                 {/* Animated Background Pulse */}
                 <div className="absolute inset-0 bg-gradient-to-r from-orange-500 via-orange-400 to-orange-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse"></div>
 
                 {/* Search Button Content */}
-                <div className="relative z-10 flex items-center space-x-3">
+                <div className="relative z-10 flex items-center space-x-2 sm:space-x-3">
                   {isSearching ? (
                     <>
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                      <span className="tracking-widest text-xs">SCANNING...</span>
+                      <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
+                      <span className="tracking-widest text-[10px] sm:text-xs">SCANNING...</span>
                     </>
                   ) : searchSuccess ? (
                     <>
-                      <Check className="w-5 h-5" />
-                      <span className="tracking-widest text-xs">FOUND!</span>
+                      <Check className="w-4 h-4 sm:w-5 sm:h-5" />
+                      <span className="tracking-widest text-[10px] sm:text-xs">FOUND!</span>
                     </>
                   ) : (
                     <>
-                      <Search className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                      <span className="tracking-widest text-xs">SEARCH</span>
+                      <Search className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform" />
+                      <span className="tracking-widest text-[10px] sm:text-xs">SEARCH</span>
                     </>
                   )}
                 </div>
@@ -194,15 +204,15 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
             </div>
           </div>
 
-          <div className="mt-10 pt-10 border-t border-white/5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="space-y-3 group">
-              <label className="text-[9px] font-black text-slate-500 uppercase tracking-[0.4em] ml-1">Class Configuration</label>
+          <div className="mt-6 sm:mt-8 lg:mt-10 pt-6 sm:pt-8 lg:pt-10 border-t border-white/5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+            <div className="space-y-2 sm:space-y-3 group">
+              <label className="text-[8px] sm:text-[9px] font-black text-slate-500 uppercase tracking-[0.3em] sm:tracking-[0.4em] ml-1">Class Configuration</label>
               <div className="relative">
-                <div className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none group-hover:text-white transition-colors">
-                  <ChevronDown className="w-4 h-4" />
+                <div className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none group-hover:text-white transition-colors">
+                  <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4" />
                 </div>
                 <select
-                  className="w-full appearance-none pl-6 pr-10 py-4 bg-white/5 rounded-xl text-xs font-bold text-white outline-none border border-white/10 cursor-pointer focus:border-cyan-500/30 transition-all hover:bg-white/10"
+                  className="w-full appearance-none pl-4 sm:pl-6 pr-8 sm:pr-10 py-3 sm:py-4 bg-white/5 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-bold text-white outline-none border border-white/10 cursor-pointer focus:border-cyan-500/30 transition-all hover:bg-white/10"
                   value={selectedClass}
                   onChange={(e) => setSelectedClass(e.target.value as TrainClass)}
                 >
@@ -211,14 +221,14 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
               </div>
             </div>
 
-            <div className="space-y-3 group">
-              <label className="text-[9px] font-black text-slate-500 uppercase tracking-[0.4em] ml-1">Reservation Quota</label>
+            <div className="space-y-2 sm:space-y-3 group">
+              <label className="text-[8px] sm:text-[9px] font-black text-slate-500 uppercase tracking-[0.3em] sm:tracking-[0.4em] ml-1">Reservation Quota</label>
               <div className="relative">
-                <div className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none group-hover:text-white transition-colors">
-                  <ChevronDown className="w-4 h-4" />
+                <div className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none group-hover:text-white transition-colors">
+                  <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4" />
                 </div>
                 <select
-                  className="w-full appearance-none pl-6 pr-10 py-4 bg-white/5 rounded-xl text-xs font-bold text-white outline-none border border-white/10 cursor-pointer focus:border-cyan-500/30 transition-all hover:bg-white/10"
+                  className="w-full appearance-none pl-4 sm:pl-6 pr-8 sm:pr-10 py-3 sm:py-4 bg-white/5 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-bold text-white outline-none border border-white/10 cursor-pointer focus:border-cyan-500/30 transition-all hover:bg-white/10"
                   value={selectedQuota}
                   onChange={(e) => setSelectedQuota(e.target.value as Quota)}
                 >
@@ -227,7 +237,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-6 lg:col-span-2 pt-6">
+            <div className="flex flex-wrap items-center gap-4 sm:gap-6 lg:col-span-2 pt-4 sm:pt-6">
               {[
                 { label: 'Flexible with Date', active: flexibleDate, setter: setFlexibleDate },
                 { label: 'Physically Challenged', active: physicallyChallenged, setter: setPhysicallyChallenged },
@@ -257,7 +267,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
       </div>
 
       {/* Dynamic Status Display */}
-      <div className="mt-6 flex items-center justify-center text-[9px] font-black uppercase tracking-[0.4em] space-x-3 text-slate-500">
+      <div className="mt-4 sm:mt-6 flex items-center justify-center text-[8px] sm:text-[9px] font-black uppercase tracking-[0.3em] sm:tracking-[0.4em] space-x-2 sm:space-x-3 text-slate-500 px-4 text-center">
         <div className="w-1.5 h-1.5 bg-orange-500 rounded-full animate-ping"></div>
         <span>Vande Bharat Express (22436) Active on Selected Vector</span>
       </div>

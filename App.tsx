@@ -17,6 +17,7 @@ const App: React.FC = () => {
   const [selectedTimeSlots, setSelectedTimeSlots] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState<'optimized' | 'credits' | 'timeline'>('optimized');
   const [searchParams, setSearchParams] = useState({ from: '', to: '', date: '' });
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -134,10 +135,10 @@ const App: React.FC = () => {
 
 
 
-      <main className="relative pt-20 pb-20">
+      <main className="relative pt-16 sm:pt-20 pb-12 sm:pb-16 lg:pb-20">
 
         {/* Hero Section */}
-        <section className="relative h-[650px] flex flex-col items-center justify-center text-center px-4 overflow-hidden">
+        <section className="relative h-[500px] sm:h-[600px] lg:h-[650px] flex flex-col items-center justify-center text-center px-4 overflow-hidden">
           {/* Hero Train Image Background */}
           <div className="absolute inset-0 z-0 opacity-10">
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#020617]/60 to-[#020617] z-10"></div>
@@ -157,32 +158,32 @@ const App: React.FC = () => {
             />
           </div>
 
-          <div className="max-w-5xl mx-auto mb-16 animate-in fade-in zoom-in duration-1000 relative z-20">
-            <div className="inline-flex items-center space-x-3 bg-white/5 px-6 py-2 rounded-full border border-white/10 mb-8 backdrop-blur-md">
-              <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(0,242,255,1)]"></div>
-              <span className="text-[10px] font-black text-slate-300 tracking-[0.4em] uppercase">Phase 4.0 Infrastructure Live</span>
+          <div className="max-w-5xl mx-auto mb-8 sm:mb-12 lg:mb-16 animate-in fade-in zoom-in duration-1000 relative z-20 px-4">
+            <div className="inline-flex items-center space-x-2 sm:space-x-3 bg-white/5 px-3 sm:px-6 py-1.5 sm:py-2 rounded-full border border-white/10 mb-6 sm:mb-8 backdrop-blur-md">
+              <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-cyan-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(0,242,255,1)]"></div>
+              <span className="text-[8px] sm:text-[10px] font-black text-slate-300 tracking-[0.2em] sm:tracking-[0.4em] uppercase">Phase 4.0 Infrastructure Live</span>
             </div>
-            <h2 className="text-5xl md:text-8xl font-black text-white mb-8 font-outfit tracking-tighter leading-tight">
+            <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-8xl font-black text-white mb-4 sm:mb-6 lg:mb-8 font-outfit tracking-tighter leading-tight px-2">
               THE FUTURE OF <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 neon-text-blue">
                 INDIAN SPEED
               </span>
             </h2>
-            <p className="text-xl text-slate-400 font-medium max-w-3xl mx-auto leading-relaxed opacity-90">
+            <p className="text-sm sm:text-lg lg:text-xl text-slate-400 font-medium max-w-3xl mx-auto leading-relaxed opacity-90 px-2">
               Ultra-responsive booking engine paired with the elegance of India's flagship Vande Bharat Express.
             </p>
 
             {/* Futuristic Stats Cards */}
-            <div className="grid grid-cols-3 gap-4 mt-12 max-w-3xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mt-8 sm:mt-12 max-w-3xl mx-auto">
               {[
                 { label: 'Max Speed', value: '180', unit: 'KM/H', color: 'cyan' },
                 { label: 'Routes', value: '50+', unit: 'ACTIVE', color: 'orange' },
                 { label: 'Uptime', value: '99.9', unit: '%', color: 'blue' }
               ].map((stat) => (
-                <div key={stat.label} className="glass p-5 rounded-2xl border border-white/10 backdrop-blur-md hover:border-${stat.color}-500/30 transition-all group">
-                  <div className={`text-3xl font-black text-${stat.color}-400 font-outfit`}>{stat.value}</div>
-                  <div className="text-[9px] text-slate-500 uppercase tracking-widest mt-1">{stat.unit}</div>
-                  <div className="text-[8px] text-slate-600 uppercase tracking-wider mt-1">{stat.label}</div>
+                <div key={stat.label} className="glass p-4 sm:p-5 rounded-2xl border border-white/10 backdrop-blur-md hover:border-${stat.color}-500/30 transition-all group">
+                  <div className={`text-2xl sm:text-3xl font-black text-${stat.color}-400 font-outfit`}>{stat.value}</div>
+                  <div className="text-[8px] sm:text-[9px] text-slate-500 uppercase tracking-widest mt-1">{stat.unit}</div>
+                  <div className="text-[7px] sm:text-[8px] text-slate-600 uppercase tracking-wider mt-1">{stat.label}</div>
                 </div>
               ))}
             </div>
@@ -196,12 +197,26 @@ const App: React.FC = () => {
         <SearchForm onSearch={setSearchParams} />
 
         {/* Results Section */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20 relative z-10">
-          <div className="flex flex-col xl:flex-row gap-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 sm:mt-16 lg:mt-20 relative z-10">
+          {/* Mobile Filter Toggle Button */}
+          <div className="xl:hidden mb-6 flex items-center justify-between">
+            <h2 className="text-xl sm:text-2xl font-black text-white font-outfit tracking-tight">
+              Available Vectors <span className="text-cyan-500">({String(filteredTrains.length).padStart(2, '0')})</span>
+            </h2>
+            <button
+              onClick={() => setIsFiltersOpen(!isFiltersOpen)}
+              className="flex items-center space-x-2 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-white text-xs font-black uppercase tracking-widest transition-all"
+            >
+              <SlidersHorizontal className="w-4 h-4 text-cyan-400" />
+              <span>Filters</span>
+            </button>
+          </div>
+
+          <div className="flex flex-col xl:flex-row gap-6 sm:gap-8 lg:gap-12">
 
             {/* Sidebar Filters */}
-            <aside className="xl:w-80 shrink-0">
-              <div className="glass sticky top-36 rounded-[36px] overflow-hidden p-1 shadow-2xl neon-border">
+            <aside className={`xl:w-80 shrink-0 ${isFiltersOpen ? 'block' : 'hidden'} xl:block`}>
+              <div className="glass sticky top-24 xl:top-36 rounded-[24px] sm:rounded-[36px] overflow-hidden p-1 shadow-2xl neon-border">
                 <div className="bg-[#020617]/90 rounded-[35px] p-8">
                   <div className="flex items-center justify-between mb-10">
                     <h3 className="text-[11px] font-black text-white uppercase tracking-[0.3em] flex items-center">
@@ -274,23 +289,23 @@ const App: React.FC = () => {
             {/* Results List */}
             <div className="flex-1 min-w-0">
               {/* Sort & Info Bar */}
-              <div className="flex flex-col lg:flex-row items-center justify-between mb-12 gap-8 px-4">
-                <div className="space-y-2">
-                  <h2 className="text-3xl font-black text-white font-outfit tracking-tight">
+              <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between mb-8 sm:mb-12 gap-4 sm:gap-6 lg:gap-8 px-2 sm:px-4">
+                <div className="space-y-2 w-full lg:w-auto">
+                  <h2 className="text-2xl sm:text-3xl font-black text-white font-outfit tracking-tight">
                     Available Vectors <span className="text-cyan-500">({String(filteredTrains.length).padStart(2, '0')})</span>
                   </h2>
-                  <div className="flex items-center space-x-4 text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">
-                    <span className="flex items-center text-cyan-400"><Globe className="w-3 h-3 mr-2" /> NDLS Hub</span>
-                    <span className="text-white/20">|</span>
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-[9px] sm:text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] sm:tracking-[0.3em]">
+                    <span className="flex items-center text-cyan-400"><Globe className="w-3 h-3 mr-1 sm:mr-2" /> NDLS Hub</span>
+                    <span className="text-white/20 hidden sm:inline">|</span>
                     <span>Varanasi Vector</span>
-                    <span className="text-white/20">|</span>
+                    <span className="text-white/20 hidden sm:inline">|</span>
                     <span className="text-slate-300">15 Dec 2024</span>
                   </div>
                 </div>
-                <div className="flex items-center bg-white/5 p-2 rounded-2xl border border-white/10 backdrop-blur-md">
+                <div className="flex items-center bg-white/5 p-1 sm:p-2 rounded-xl sm:rounded-2xl border border-white/10 backdrop-blur-md w-full lg:w-auto">
                   <button
                     onClick={() => setSortBy('optimized')}
-                    className={`px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all
+                    className={`flex-1 sm:flex-initial px-3 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all
                       ${sortBy === 'optimized'
                         ? 'bg-cyan-500 text-black shadow-lg shadow-cyan-500/20'
                         : 'text-slate-400 hover:text-white'
@@ -300,7 +315,7 @@ const App: React.FC = () => {
                   </button>
                   <button
                     onClick={() => setSortBy('credits')}
-                    className={`px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all
+                    className={`flex-1 sm:flex-initial px-3 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all
                       ${sortBy === 'credits'
                         ? 'bg-cyan-500 text-black shadow-lg shadow-cyan-500/20'
                         : 'text-slate-400 hover:text-white'
@@ -310,7 +325,7 @@ const App: React.FC = () => {
                   </button>
                   <button
                     onClick={() => setSortBy('timeline')}
-                    className={`px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all
+                    className={`flex-1 sm:flex-initial px-3 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all
                       ${sortBy === 'timeline'
                         ? 'bg-cyan-500 text-black shadow-lg shadow-cyan-500/20'
                         : 'text-slate-400 hover:text-white'
@@ -328,18 +343,18 @@ const App: React.FC = () => {
                     <TrainCard key={train.id} train={train} />
                   ))
                 ) : (
-                  <div className="p-16 glass rounded-[40px] text-center border-2 border-dashed border-white/10">
+                  <div className="p-8 sm:p-12 lg:p-16 glass rounded-[24px] sm:rounded-[32px] lg:rounded-[40px] text-center border-2 border-dashed border-white/10">
                     <div className="max-w-md mx-auto">
-                      <div className="w-16 h-16 bg-cyan-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <Filter className="w-8 h-8 text-cyan-500" />
+                      <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-cyan-500/10 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
+                        <Filter className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-cyan-500" />
                       </div>
-                      <h3 className="text-2xl font-black text-white mb-3 font-outfit tracking-tight">No Vectors Found</h3>
-                      <p className="text-slate-500 mb-6 font-medium leading-relaxed">
+                      <h3 className="text-xl sm:text-2xl font-black text-white mb-2 sm:mb-3 font-outfit tracking-tight">No Vectors Found</h3>
+                      <p className="text-sm sm:text-base text-slate-500 mb-4 sm:mb-6 font-medium leading-relaxed px-2">
                         No trains match your current filter criteria. Try adjusting your filters or reset to see all available options.
                       </p>
                       <button
                         onClick={resetFilters}
-                        className="px-8 py-3 bg-cyan-500 text-black rounded-xl text-[10px] font-black uppercase tracking-widest hover:shadow-[0_15px_35px_rgba(0,242,255,0.3)] transition-all"
+                        className="px-6 sm:px-8 py-2.5 sm:py-3 bg-cyan-500 text-black rounded-lg sm:rounded-xl text-[9px] sm:text-[10px] font-black uppercase tracking-widest hover:shadow-[0_15px_35px_rgba(0,242,255,0.3)] transition-all"
                       >
                         Reset All Filters
                       </button>
@@ -349,31 +364,31 @@ const App: React.FC = () => {
               </div>
 
               {/* IRCTC Nexus Hub - Information Section */}
-              <div className="mt-16 space-y-12">
-                <div className="glass rounded-[40px] overflow-hidden border border-white/10 relative p-8 lg:p-12">
+              <div className="mt-12 sm:mt-16 space-y-8 sm:space-y-12">
+                <div className="glass rounded-[24px] sm:rounded-[32px] lg:rounded-[40px] overflow-hidden border border-white/10 relative p-6 sm:p-8 lg:p-12">
                   {/* Background Accents */}
-                  <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-500/5 rounded-full blur-[100px] -mr-48 -mt-48 pointer-events-none"></div>
-                  <div className="absolute bottom-0 left-0 w-96 h-96 bg-orange-500/5 rounded-full blur-[100px] -ml-48 -mb-48 pointer-events-none"></div>
+                  <div className="absolute top-0 right-0 w-64 sm:w-96 h-64 sm:h-96 bg-cyan-500/5 rounded-full blur-[100px] -mr-32 sm:-mr-48 -mt-32 sm:-mt-48 pointer-events-none"></div>
+                  <div className="absolute bottom-0 left-0 w-64 sm:w-96 h-64 sm:h-96 bg-orange-500/5 rounded-full blur-[100px] -ml-32 sm:-ml-48 -mb-32 sm:-mb-48 pointer-events-none"></div>
 
                   <div className="relative z-10">
-                    <div className="flex flex-col lg:flex-row items-center lg:items-start gap-12">
-                      <div className="flex-1 space-y-8">
-                        <div className="inline-flex items-center space-x-3 bg-white/5 px-4 py-2 rounded-full border border-white/10">
-                          <Zap className="w-4 h-4 text-cyan-400 animate-pulse" />
-                          <span className="text-[10px] font-black text-slate-300 tracking-[0.3em] uppercase">Global Infrastructure Dashboard</span>
+                    <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8 sm:gap-12">
+                      <div className="flex-1 space-y-6 sm:space-y-8 w-full">
+                        <div className="inline-flex items-center space-x-2 sm:space-x-3 bg-white/5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-white/10">
+                          <Zap className="w-3 h-3 sm:w-4 sm:h-4 text-cyan-400 animate-pulse" />
+                          <span className="text-[9px] sm:text-[10px] font-black text-slate-300 tracking-[0.2em] sm:tracking-[0.3em] uppercase">Global Infrastructure Dashboard</span>
                         </div>
 
-                        <h3 className="text-4xl lg:text-5xl font-black text-white font-outfit leading-tight tracking-tighter">
+                        <h3 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white font-outfit leading-tight tracking-tighter">
                           IRCTC <span className="text-cyan-400">NEXUS</span> <br />
                           <span className="text-slate-500">INTELLIGENCE</span>
                         </h3>
 
-                        <p className="text-slate-400 font-medium text-lg leading-relaxed max-w-xl">
+                        <p className="text-slate-400 font-medium text-base sm:text-lg leading-relaxed max-w-xl">
                           As the digital backbone of Indian Railways, IRCTC orchestrates one of the world's largest e-commerce platforms, processing millions of requests with millisecond precision.
                         </p>
 
-                        <div className="flex flex-wrap gap-4">
-                          <button className="px-8 py-4 bg-cyan-500 text-black rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-cyan-400 transition-all shadow-[0_10px_20px_rgba(0,242,255,0.2)]">
+                        <div className="flex flex-wrap gap-3 sm:gap-4">
+                          <button className="px-6 sm:px-8 py-3 sm:py-4 bg-cyan-500 text-black rounded-xl sm:rounded-2xl text-[10px] sm:text-[11px] font-black uppercase tracking-widest hover:bg-cyan-400 transition-all shadow-[0_10px_20px_rgba(0,242,255,0.2)]">
                             Explore Official Portal
                           </button>
                           {/* <button className="px-8 py-4 bg-white/5 text-white border border-white/10 rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-white/10 transition-all">
@@ -382,23 +397,23 @@ const App: React.FC = () => {
                         </div>
                       </div>
 
-                      <div className="flex-1 w-full grid grid-cols-2 gap-4">
+                      <div className="flex-1 w-full grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                         {[
-                          { label: 'Daily Bookings', value: '1.5M+', icon: <Activity className="w-5 h-5 text-cyan-400" />, sub: 'Real-time Processed' },
-                          { label: 'Network Coverage', value: '68K+', icon: <Globe className="w-5 h-5 text-orange-400" />, sub: 'Kilometers of Track' },
-                          { label: 'Annual Users', value: '800M+', icon: <Users className="w-5 h-5 text-blue-400" />, sub: 'Active Travelers' },
-                          { label: 'Stations Hub', value: '7,300+', icon: <MapPin className="w-5 h-5 text-emerald-400" />, sub: 'Direct Connections' }
+                          { label: 'Daily Bookings', value: '1.5M+', icon: <Activity className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400" />, sub: 'Real-time Processed' },
+                          { label: 'Network Coverage', value: '68K+', icon: <Globe className="w-4 h-4 sm:w-5 sm:h-5 text-orange-400" />, sub: 'Kilometers of Track' },
+                          { label: 'Annual Users', value: '800M+', icon: <Users className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />, sub: 'Active Travelers' },
+                          { label: 'Stations Hub', value: '7,300+', icon: <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" />, sub: 'Direct Connections' }
                         ].map((stat, i) => (
-                          <div key={i} className="bg-white/5 border border-white/10 p-6 rounded-3xl hover:border-white/20 transition-all group">
-                            <div className="flex items-center justify-between mb-4">
-                              <div className="p-3 bg-white/5 rounded-2xl group-hover:bg-white/10 transition-colors">
+                          <div key={i} className="bg-white/5 border border-white/10 p-4 sm:p-6 rounded-2xl sm:rounded-3xl hover:border-white/20 transition-all group">
+                            <div className="flex items-center justify-between mb-3 sm:mb-4">
+                              <div className="p-2 sm:p-3 bg-white/5 rounded-xl sm:rounded-2xl group-hover:bg-white/10 transition-colors">
                                 {stat.icon}
                               </div>
                               <div className="w-1.5 h-1.5 rounded-full bg-cyan-500/50"></div>
                             </div>
-                            <div className="text-2xl font-black text-white font-outfit">{stat.value}</div>
-                            <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-1">{stat.label}</div>
-                            <div className="text-[8px] text-slate-600 font-medium uppercase mt-2">{stat.sub}</div>
+                            <div className="text-xl sm:text-2xl font-black text-white font-outfit">{stat.value}</div>
+                            <div className="text-[9px] sm:text-[10px] font-black text-slate-500 uppercase tracking-widest mt-1">{stat.label}</div>
+                            <div className="text-[7px] sm:text-[8px] text-slate-600 font-medium uppercase mt-2">{stat.sub}</div>
                           </div>
                         ))}
                       </div>
@@ -407,7 +422,7 @@ const App: React.FC = () => {
                 </div>
 
                 {/* Capabilities Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                   {[
                     { title: 'Next-Gen E-Ticketing', desc: 'Frictionless booking engine with 120,000 requests per minute capacity.', icon: <Smartphone className="text-cyan-400" /> },
                     { title: 'Premium Catering', desc: 'Strategic hospitality network serving high-quality meals across 1,500+ trains.', icon: <Coffee className="text-orange-400" /> },
@@ -435,11 +450,11 @@ const App: React.FC = () => {
       </main>
 
       {/* Social Media Connection Bar */}
-      <div className="relative bg-gradient-to-r from-purple-900 via-indigo-900 to-purple-900 py-4 border-t border-white/10">
+      <div className="relative bg-gradient-to-r from-purple-900 via-indigo-900 to-purple-900 py-4 sm:py-6 border-t border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-            <span className="text-white text-sm font-bold tracking-wide">Get Connected with us on social networks</span>
-            <div className="flex items-center gap-3">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+            <span className="text-white text-xs sm:text-sm font-bold tracking-wide text-center">Get Connected with us on social networks</span>
+            <div className="flex items-center gap-2 sm:gap-3 flex-wrap justify-center">
               <a
                 href="https://facebook.com"
                 target="_blank"
@@ -558,22 +573,22 @@ const App: React.FC = () => {
       <Footer />
 
       {/* Futuristic Floating UI */}
-      <div className="fixed bottom-10 right-10 flex flex-col space-y-6 z-40">
-        <button className="p-5 vande-bharat-orange text-white rounded-2xl shadow-[0_15px_30px_rgba(255,153,51,0.4)] hover:scale-110 transition-all active:scale-95 group" title="Tactical View">
-          <Navigation className="w-7 h-7 group-hover:rotate-45 transition-transform duration-500" />
+      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 lg:bottom-10 lg:right-10 flex flex-col space-y-3 sm:space-y-4 lg:space-y-6 z-40">
+        <button className="p-3 sm:p-4 lg:p-5 vande-bharat-orange text-white rounded-xl sm:rounded-2xl shadow-[0_15px_30px_rgba(255,153,51,0.4)] hover:scale-110 transition-all active:scale-95 group" title="Tactical View">
+          <Navigation className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 group-hover:rotate-45 transition-transform duration-500" />
         </button>
         {showScrollTop && (
           <button
             onClick={scrollToTop}
-            className="p-5 bg-white/5 text-white rounded-2xl shadow-2xl hover:bg-white/10 transition-all active:scale-95 border border-white/10 backdrop-blur-lg"
+            className="p-3 sm:p-4 lg:p-5 bg-white/5 text-white rounded-xl sm:rounded-2xl shadow-2xl hover:bg-white/10 transition-all active:scale-95 border border-white/10 backdrop-blur-lg"
           >
-            <ArrowUp className="w-6 h-6" />
+            <ArrowUp className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
         )}
       </div>
 
       {/* Terminal Display Controls */}
-      <div className="fixed bottom-10 left-10 hidden xl:block z-40">
+      <div className="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 lg:bottom-10 lg:left-10 hidden xl:block z-40">
         <div className="glass p-4 rounded-3xl flex items-center space-x-6 shadow-2xl border border-white/10 bg-[#020617]/50">
           <div className="flex space-x-3">
             <button className="w-9 h-9 rounded-xl bg-cyan-500 text-black flex items-center justify-center text-[11px] font-black">CRT</button>

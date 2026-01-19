@@ -81,37 +81,39 @@ const TrainCard: React.FC<TrainCardProps> = ({ train }) => {
           <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/5 blur-[60px] rounded-full pointer-events-none"></div>
         )}
 
-        <div className={`glass border-none p-8 relative ${isVandeBharat ? 'bg-black/40' : 'bg-white/5'}`}>
+        <div className={`glass border-none p-4 sm:p-6 lg:p-8 relative ${isVandeBharat ? 'bg-black/40' : 'bg-white/5'}`}>
           {/* Header: Train Number & Name */}
-          <div className="flex flex-col xl:flex-row xl:items-center justify-between mb-10 gap-6">
-            <div className="flex items-center space-x-5">
-              <div className={`px-5 py-2 rounded-xl text-[10px] font-black tracking-[0.2em] border shadow-lg
-                ${isVandeBharat ? 'bg-orange-500 border-orange-400 text-white' : 'bg-white/5 border-white/10 text-slate-300'}`}>
-                {train.number}
-              </div>
-              <div className="space-y-1">
-                <h3 className={`text-2xl font-black font-outfit tracking-tight ${isVandeBharat ? 'text-orange-400 neon-text-orange' : 'text-white'}`}>
-                  {train.name}
-                </h3>
-                <div className="flex items-center space-x-3 text-[9px] font-black uppercase tracking-[0.2em] text-slate-500">
-                  <span className="flex items-center"><Zap className="w-3 h-3 mr-1 text-cyan-400" /> High Priority</span>
-                  <span className="w-1 h-1 bg-slate-700 rounded-full"></span>
-                  <span className="flex items-center text-emerald-400">On Time</span>
+          <div className="flex flex-col xl:flex-row xl:items-center justify-between mb-6 sm:mb-8 lg:mb-10 gap-4 sm:gap-6">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-3 sm:space-y-0 sm:space-x-5 w-full xl:w-auto">
+              <div className="flex items-center space-x-3 sm:space-x-5 w-full sm:w-auto">
+                <div className={`px-3 sm:px-4 lg:px-5 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-[9px] sm:text-[10px] font-black tracking-[0.15em] sm:tracking-[0.2em] border shadow-lg
+                  ${isVandeBharat ? 'bg-orange-500 border-orange-400 text-white' : 'bg-white/5 border-white/10 text-slate-300'}`}>
+                  {train.number}
+                </div>
+                <div className="space-y-1 flex-1 sm:flex-initial">
+                  <h3 className={`text-lg sm:text-xl lg:text-2xl font-black font-outfit tracking-tight ${isVandeBharat ? 'text-orange-400 neon-text-orange' : 'text-white'}`}>
+                    {train.name}
+                  </h3>
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-[8px] sm:text-[9px] font-black uppercase tracking-[0.15em] sm:tracking-[0.2em] text-slate-500">
+                    <span className="flex items-center"><Zap className="w-2.5 h-2.5 sm:w-3 sm:h-3 mr-1 text-cyan-400" /> High Priority</span>
+                    <span className="w-1 h-1 bg-slate-700 rounded-full hidden sm:inline"></span>
+                    <span className="flex items-center text-emerald-400">On Time</span>
+                  </div>
                 </div>
               </div>
               {isVandeBharat && (
-                <div className="px-4 py-1.5 rounded-full bg-white/10 border border-white/10 text-[9px] font-black text-orange-400 uppercase tracking-widest flex items-center">
-                  <Star className="w-3 h-3 mr-1.5 fill-orange-400" /> 5-STAR SERVICE
+                <div className="px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-white/10 border border-white/10 text-[8px] sm:text-[9px] font-black text-orange-400 uppercase tracking-widest flex items-center">
+                  <Star className="w-2.5 h-2.5 sm:w-3 sm:h-3 mr-1 sm:mr-1.5 fill-orange-400" /> 5-STAR SERVICE
                 </div>
               )}
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-1 sm:space-x-2 justify-center sm:justify-start">
               {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((day, i) => {
                 const isActive = train.runsOn.includes(day);
                 return (
                   <div
                     key={i}
-                    className={`w-8 h-8 rounded-lg flex items-center justify-center text-[10px] font-bold border transition-all duration-300
+                    className={`w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 rounded-md sm:rounded-lg flex items-center justify-center text-[9px] sm:text-[10px] font-bold border transition-all duration-300
                       ${isActive ? 'bg-cyan-500 text-black border-cyan-400 font-black shadow-[0_0_10px_rgba(0,242,255,0.3)]' : 'bg-white/5 text-slate-600 border-white/5'}`}
                   >
                     {day}
@@ -122,48 +124,48 @@ const TrainCard: React.FC<TrainCardProps> = ({ train }) => {
           </div>
 
           {/* Schedule Visualization */}
-          <div className="grid grid-cols-1 xl:grid-cols-7 gap-10 items-center mb-12">
-            <div className="xl:col-span-2 space-y-2">
-              <div className="text-4xl font-black text-white font-space tracking-tight">{train.departure}</div>
-              <div className="flex items-center text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
-                <MapPin className="w-3 h-3 mr-2 text-cyan-400" /> {train.from} ({train.fromCode})
+          <div className="grid grid-cols-1 xl:grid-cols-7 gap-6 sm:gap-8 lg:gap-10 items-center mb-8 sm:mb-10 lg:mb-12">
+            <div className="xl:col-span-2 space-y-2 text-center xl:text-left">
+              <div className="text-3xl sm:text-4xl font-black text-white font-space tracking-tight">{train.departure}</div>
+              <div className="flex items-center justify-center xl:justify-start text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] sm:tracking-[0.2em]">
+                <MapPin className="w-2.5 h-2.5 sm:w-3 sm:h-3 mr-1 sm:mr-2 text-cyan-400" /> {train.from} ({train.fromCode})
               </div>
             </div>
 
-            <div className="xl:col-span-3 px-10 relative">
-              <div className="absolute top-1/2 left-0 w-full h-[1px] bg-white/5 -translate-y-1/2 overflow-hidden">
+            <div className="xl:col-span-3 px-4 sm:px-6 lg:px-10 relative order-3 xl:order-2">
+              <div className="hidden xl:block absolute top-1/2 left-0 w-full h-[1px] bg-white/5 -translate-y-1/2 overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent animate-scanline h-full w-[200px]" style={{ animation: 'scan 2s linear infinite' }}></div>
               </div>
               <div className="relative flex flex-col items-center">
-                <div className="bg-[#020617] px-6 py-2 text-[11px] font-black text-white rounded-full border border-white/10 shadow-xl z-10 flex items-center">
-                  <Clock className="w-3 h-3 mr-2 text-cyan-400" />
+                <div className="bg-[#020617] px-4 sm:px-6 py-1.5 sm:py-2 text-[10px] sm:text-[11px] font-black text-white rounded-full border border-white/10 shadow-xl z-10 flex items-center">
+                  <Clock className="w-2.5 h-2.5 sm:w-3 sm:h-3 mr-1.5 sm:mr-2 text-cyan-400" />
                   {train.duration}
                 </div>
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#020617] p-2 rounded-full border border-white/5">
+                <div className="hidden xl:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#020617] p-2 rounded-full border border-white/5">
                   <Navigation className="w-5 h-5 text-cyan-400 rotate-90 drop-shadow-[0_0_10px_rgba(0,242,255,0.5)]" />
                 </div>
               </div>
             </div>
 
-            <div className="xl:col-span-2 text-right space-y-2">
-              <div className="text-4xl font-black text-white font-space tracking-tight">{train.arrival}</div>
-              <div className="flex items-center justify-end text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
-                {train.to} ({train.toCode}) <MapPin className="w-3 h-3 ml-2 text-orange-500" />
+            <div className="xl:col-span-2 text-center xl:text-right space-y-2 order-2 xl:order-3">
+              <div className="text-3xl sm:text-4xl font-black text-white font-space tracking-tight">{train.arrival}</div>
+              <div className="flex items-center justify-center xl:justify-end text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] sm:tracking-[0.2em]">
+                {train.to} ({train.toCode}) <MapPin className="w-2.5 h-2.5 sm:w-3 sm:h-3 ml-1 sm:ml-2 text-orange-500" />
               </div>
             </div>
           </div>
 
           {/* Dynamic Class Grid with Interactive Holographic Effect */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5 mb-10">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-5 mb-6 sm:mb-8 lg:mb-10">
             {train.classes.map((cls, idx) => (
               <button
                 key={idx}
-                className={`p-5 rounded-2xl border text-left transition-all hover:scale-[1.03] active:scale-95 group relative overflow-hidden
+                className={`p-3 sm:p-4 lg:p-5 rounded-xl sm:rounded-2xl border text-left transition-all hover:scale-[1.03] active:scale-95 group relative overflow-hidden
                   ${getStatusStyle(cls.type)}`}
               >
-                <div className="text-[9px] font-black uppercase tracking-[0.3em] opacity-60 mb-3">{cls.class}</div>
-                <div className="text-sm font-black mb-1.5 tracking-tight text-white">{cls.status}</div>
-                <div className="text-lg font-black font-space">₹{cls.fare.toLocaleString()}</div>
+                <div className="text-[8px] sm:text-[9px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] opacity-60 mb-2 sm:mb-3">{cls.class}</div>
+                <div className="text-xs sm:text-sm font-black mb-1 sm:mb-1.5 tracking-tight text-white">{cls.status}</div>
+                <div className="text-base sm:text-lg font-black font-space">₹{cls.fare.toLocaleString()}</div>
 
                 {/* Micro-interaction lines */}
                 <div className="absolute top-0 right-0 p-2 opacity-20">
@@ -177,32 +179,32 @@ const TrainCard: React.FC<TrainCardProps> = ({ train }) => {
           </div>
 
           {/* Card Footer Actions */}
-          <div className="flex flex-col sm:flex-row items-center justify-between pt-8 border-t border-white/10 gap-6">
-            <div className="flex items-center space-x-8">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pt-6 sm:pt-8 border-t border-white/10 gap-4 sm:gap-6">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-3 sm:space-y-0 sm:space-x-6 lg:space-x-8 w-full sm:w-auto">
               <button
                 onClick={() => setIsExpanded(!isExpanded)}
-                className="flex items-center text-[10px] font-black text-cyan-400 hover:text-white transition-all uppercase tracking-[0.25em] group"
+                className="flex items-center text-[9px] sm:text-[10px] font-black text-cyan-400 hover:text-white transition-all uppercase tracking-[0.2em] sm:tracking-[0.25em] group"
               >
-                {isExpanded ? <ChevronUp className="w-4 h-4 mr-2" /> : <ChevronDown className="w-4 h-4 mr-2" />}
+                {isExpanded ? <ChevronUp className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" /> : <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" />}
                 <span className="border-b border-cyan-400/30 group-hover:border-white">Details & Intel</span>
               </button>
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4">
                 {train.amenities.map(amenity => (
-                  <div key={amenity} className="p-2.5 bg-white/5 rounded-xl text-slate-500 hover:text-cyan-400 hover:bg-white/10 transition-all cursor-help border border-white/5" title={amenity}>
-                    {amenity === 'Wi-Fi' && <Wifi className="w-4 h-4" />}
-                    {amenity === 'Catering' && <Coffee className="w-4 h-4" />}
-                    {amenity === 'Bio Toilet' && <ShieldCheck className="w-4 h-4" />}
-                    {amenity === 'CCTV' && <Info className="w-4 h-4" />}
+                  <div key={amenity} className="p-2 sm:p-2.5 bg-white/5 rounded-lg sm:rounded-xl text-slate-500 hover:text-cyan-400 hover:bg-white/10 transition-all cursor-help border border-white/5" title={amenity}>
+                    {amenity === 'Wi-Fi' && <Wifi className="w-3 h-3 sm:w-4 sm:h-4" />}
+                    {amenity === 'Catering' && <Coffee className="w-3 h-3 sm:w-4 sm:h-4" />}
+                    {amenity === 'Bio Toilet' && <ShieldCheck className="w-3 h-3 sm:w-4 sm:h-4" />}
+                    {amenity === 'CCTV' && <Info className="w-3 h-3 sm:w-4 sm:h-4" />}
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="flex space-x-4 w-full sm:w-auto">
+            <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 lg:space-x-4 w-full sm:w-auto">
               <button
                 onClick={handleCheckFare}
                 disabled={isCheckingFare}
-                className="flex-1 sm:flex-initial px-8 py-4 bg-white/5 text-slate-300 text-[10px] font-black rounded-2xl border border-white/10 hover:bg-white/10 transition-all uppercase tracking-[0.2em] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-white/5 text-slate-300 text-[9px] sm:text-[10px] font-black rounded-xl sm:rounded-2xl border border-white/10 hover:bg-white/10 transition-all uppercase tracking-[0.15em] sm:tracking-[0.2em] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
               >
                 {isCheckingFare ? (
                   <><Loader2 className="w-3 h-3 animate-spin" /> <span>LOADING...</span></>
@@ -215,7 +217,7 @@ const TrainCard: React.FC<TrainCardProps> = ({ train }) => {
               <button
                 onClick={openSeatSelection}
                 disabled={booked}
-                className="relative flex-1 sm:flex-initial px-10 py-4 vande-bharat-orange text-white text-[10px] font-black rounded-2xl hover:shadow-[0_15px_35px_rgba(255,153,51,0.3)] hover:scale-[1.02] transition-all uppercase tracking-[0.2em] shadow-xl disabled:opacity-70 disabled:cursor-not-allowed overflow-hidden flex items-center justify-center space-x-2"
+                className="relative w-full sm:w-auto px-8 sm:px-10 py-3 sm:py-4 vande-bharat-orange text-white text-[9px] sm:text-[10px] font-black rounded-xl sm:rounded-2xl hover:shadow-[0_15px_35px_rgba(255,153,51,0.3)] hover:scale-[1.02] transition-all uppercase tracking-[0.15em] sm:tracking-[0.2em] shadow-xl disabled:opacity-70 disabled:cursor-not-allowed overflow-hidden flex items-center justify-center space-x-2"
               >
                 {booked && (
                   <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-cyan-500 animate-pulse"></div>
@@ -233,8 +235,8 @@ const TrainCard: React.FC<TrainCardProps> = ({ train }) => {
 
           {/* Expanded HUD Info */}
           {isExpanded && (
-            <div className="mt-8 pt-8 border-t border-dashed border-white/10 animate-in fade-in slide-in-from-top-4 duration-500">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+            <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-dashed border-white/10 animate-in fade-in slide-in-from-top-4 duration-500">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10">
                 <div className="lg:col-span-2">
                   <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] mb-6 flex items-center">
                     <div className="w-2 h-2 bg-cyan-500 rounded-full mr-3"></div>
@@ -284,7 +286,7 @@ const TrainCard: React.FC<TrainCardProps> = ({ train }) => {
             onClick={() => !isBooking && setIsSeatModalOpen(false)}
           ></div>
 
-          <div className="relative w-full max-w-4xl bg-[#0a1020] border border-white/10 rounded-[40px] p-8 shadow-[0_0_100px_rgba(0,242,255,0.1)] animate-in zoom-in-95 duration-300 flex flex-col max-h-[90vh]">
+          <div className="relative w-full max-w-4xl bg-[#0a1020] border border-white/10 rounded-[24px] sm:rounded-[32px] lg:rounded-[40px] p-4 sm:p-6 lg:p-8 shadow-[0_0_100px_rgba(0,242,255,0.1)] animate-in zoom-in-95 duration-300 flex flex-col max-h-[90vh]">
 
             {/* Modal Header */}
             <div className="flex justify-between items-center mb-8 border-b border-white/5 pb-6">
@@ -304,16 +306,16 @@ const TrainCard: React.FC<TrainCardProps> = ({ train }) => {
               </button>
             </div>
 
-            <div className="flex flex-col lg:flex-row gap-8 overflow-hidden h-full">
+            <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 lg:gap-8 overflow-hidden h-full">
               {/* Coach View */}
               <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar">
-                <div className="bg-white/5 rounded-3xl p-6 border border-white/5 relative">
+                <div className="bg-white/5 rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-white/5 relative">
                   {/* Driver/Engine Direction Indicator */}
-                  <div className="absolute -left-3 top-1/2 -translate-y-1/2 -rotate-90 text-[10px] font-black text-slate-600 uppercase tracking-[0.3em]">
+                  <div className="absolute -left-2 sm:-left-3 top-1/2 -translate-y-1/2 -rotate-90 text-[8px] sm:text-[10px] font-black text-slate-600 uppercase tracking-[0.2em] sm:tracking-[0.3em]">
                     Coach C7
                   </div>
 
-                  <div className="grid grid-cols-4 sm:grid-cols-6 gap-3 mb-4">
+                  <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 sm:gap-3 mb-3 sm:mb-4">
                     {seats.map((seat) => (
                       <button
                         key={seat.id}
@@ -352,8 +354,8 @@ const TrainCard: React.FC<TrainCardProps> = ({ train }) => {
               </div>
 
               {/* Booking Summary Sidebar */}
-              <div className="w-full lg:w-80 flex flex-col bg-black/20 rounded-3xl p-6 border border-white/5">
-                <h3 className="text-sm font-black text-white uppercase tracking-[0.2em] mb-6">Booking Summary</h3>
+              <div className="w-full lg:w-80 flex flex-col bg-black/20 rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-white/5">
+                <h3 className="text-xs sm:text-sm font-black text-white uppercase tracking-[0.15em] sm:tracking-[0.2em] mb-4 sm:mb-6">Booking Summary</h3>
 
                 <div className="space-y-4 flex-1">
                   {selectedSeats.length > 0 ? (
