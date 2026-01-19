@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
-
+import ThemeToggle from './components/ThemeToggle';
 import SearchForm from './components/SearchForm';
 import TrainCard from './components/TrainCard';
 import Footer from './components/Footer';
@@ -129,7 +129,9 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen relative font-inter selection:bg-cyan-500 selection:text-black">
+
       <Header />
+      <ThemeToggle />
 
 
 
