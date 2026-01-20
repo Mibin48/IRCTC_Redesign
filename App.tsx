@@ -5,7 +5,7 @@ import SearchForm from './components/SearchForm';
 import TrainCard from './components/TrainCard';
 import Footer from './components/Footer';
 // Icons from lucide-react library
-import { Filter, SlidersHorizontal, ArrowUp, Info, ChevronDown, Activity, Globe, Shield, Check, Users, Smartphone, Coffee, Award, Briefcase, Zap, MapPin } from 'lucide-react';
+import { Filter, SlidersHorizontal, ArrowUp, Info, ChevronDown, Activity, Globe, Shield, Check, Users, Smartphone, Coffee, Award, Briefcase, Zap, MapPin, MessageSquare } from 'lucide-react';
 import { mockTrains } from './data/trains';
 
 const App: React.FC = () => {
@@ -592,14 +592,29 @@ const App: React.FC = () => {
       <Footer />
 
       {/* Futuristic Floating UI */}
-      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 lg:bottom-10 lg:right-10 flex flex-col space-y-3 sm:space-y-4 lg:space-y-6 z-40">
-        <button className="p-3 sm:p-4 lg:p-5 vande-bharat-orange text-white rounded-xl sm:rounded-2xl shadow-[0_15px_30px_rgba(255,153,51,0.4)] hover:scale-110 transition-all active:scale-95 group" title="Tactical View">
-          <Navigation className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 group-hover:rotate-45 transition-transform duration-500" />
-        </button>
+      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 lg:bottom-10 lg:right-10 flex flex-col items-center space-y-3 sm:space-y-4 lg:space-y-6 z-40">
+        <div className="flex flex-col items-center gap-2 group">
+          <button className="relative flex items-center justify-center p-3 sm:p-4 bg-white rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.2)] hover:scale-110 transition-all duration-300 active:scale-95 border-2 border-orange-500 z-50">
+            <div className="absolute inset-0 bg-orange-50 opacity-0 group-hover:opacity-100 transition-opacity rounded-full"></div>
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/4712/4712139.png"
+              alt="AskDisha"
+              className="w-8 h-8 sm:w-10 sm:h-10 object-contain relative z-10"
+              onError={(e) => {
+                (e.target as HTMLImageElement).style.display = 'none';
+                (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
+              }}
+            />
+            <MessageSquare className="w-6 h-6 sm:w-8 sm:h-8 text-orange-500 hidden relative z-10" />
+          </button>
+          <div className="bg-white/90 backdrop-blur-md px-3 py-1 rounded-full border border-orange-500/30 text-[10px] font-black text-orange-500 uppercase tracking-widest shadow-lg transform -translate-y-1 group-hover:translate-y-0 transition-transform">
+            Ask Disha 2.0
+          </div>
+        </div>
         {showScrollTop && (
           <button
             onClick={scrollToTop}
-            className="p-3 sm:p-4 lg:p-5 bg-white/5 text-white rounded-xl sm:rounded-2xl shadow-2xl hover:bg-white/10 transition-all active:scale-95 border border-white/10 backdrop-blur-lg"
+            className="flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-white/10 hover:bg-white/20 text-white rounded-full shadow-2xl hover:scale-110 transition-all active:scale-95 border border-white/20 backdrop-blur-xl"
           >
             <ArrowUp className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>

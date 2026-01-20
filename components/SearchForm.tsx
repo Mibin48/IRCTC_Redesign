@@ -21,16 +21,16 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
   // ===== STATION SELECTION =====
   const [from, setFrom] = useState('NDLS'); // Starting station code
   const [to, setTo] = useState('BSB'); // Destination station code
-  
+
   // ===== TRAVEL DETAILS =====
   const [date, setDate] = useState('2024-12-15'); // Travel date
   const [selectedClass, setSelectedClass] = useState(TrainClass.ALL); // Train class preference
   const [selectedQuota, setSelectedQuota] = useState(Quota.GENERAL); // Booking quota type
-  
+
   // ===== UI STATES =====
   const [isSearching, setIsSearching] = useState(false); // Show loading spinner
   const [searchSuccess, setSearchSuccess] = useState(false); // Show success message
-  
+
   // ===== CHECKBOX OPTIONS =====
   const [flexibleDate, setFlexibleDate] = useState(true); // Allow dates +/- 5 days
   const [physicallyChallenged, setPhysicallyChallenged] = useState(false); // PWD quota
@@ -83,11 +83,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
       <div className="glass rounded-[24px] sm:rounded-[32px] lg:rounded-[40px] shadow-[0_40px_100px_rgba(0,0,0,0.6)] overflow-hidden p-1 neon-border">
         <div className="bg-[#020617]/80 rounded-[23px] sm:rounded-[31px] lg:rounded-[39px] p-4 sm:p-6 lg:p-8 xl:p-12 relative overflow-hidden">
           {/* Decorative background */}
-          <div className="absolute top-0 right-0 w-64 h-64 opacity-[0.03] pointer-events-none">
-            <svg viewBox="0 0 100 100" className="w-full h-full text-white">
-              <path d="M10,10 L90,10 L90,90 L10,90 Z M20,20 L80,20 M20,40 L80,40 M20,60 L80,60 M20,80 L80,80" fill="none" stroke="currentColor" />
-            </svg>
-          </div>
+          {/* Decorative background removed */}
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-8 items-end">
 
