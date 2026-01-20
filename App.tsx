@@ -1,24 +1,27 @@
 
 import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
-
 import SearchForm from './components/SearchForm';
 import TrainCard from './components/TrainCard';
 import Footer from './components/Footer';
-// Added 'Check' to fix the error in the Class Modules section
+// Icons from lucide-react library
 import { Filter, SlidersHorizontal, ArrowUp, Info, ChevronDown, Activity, Globe, Shield, Check, Users, Smartphone, Coffee, Award, Briefcase, Zap, MapPin } from 'lucide-react';
 import { mockTrains } from './data/trains';
 
 const App: React.FC = () => {
+  // ===== STATE VARIABLES =====
+
+  // Show/hide scroll-to-top button
   const [showScrollTop, setShowScrollTop] = useState(false);
 
-  // Filter and Sort State
-  const [selectedClasses, setSelectedClasses] = useState<string[]>([]);
-  const [selectedTimeSlots, setSelectedTimeSlots] = useState<string[]>([]);
-  const [sortBy, setSortBy] = useState<'optimized' | 'credits' | 'timeline'>('optimized');
-  const [searchParams, setSearchParams] = useState({ from: '', to: '', date: '' });
-  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+  // User's filter choices
+  const [selectedClasses, setSelectedClasses] = useState<string[]>([]); // Selected train classes
+  const [selectedTimeSlots, setSelectedTimeSlots] = useState<string[]>([]); // Selected departure times
+  const [sortBy, setSortBy] = useState<'optimized' | 'credits' | 'timeline'>('optimized'); // How to sort results
+  const [searchParams, setSearchParams] = useState({ from: '', to: '', date: '' }); // Search criteria
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false); // Show/hide filter panel
 
+  // ===== SCROLL TO TOP EFFECT =====
   useEffect(() => {
     const handleScroll = () => {
       setShowScrollTop(window.scrollY > 400);
@@ -27,11 +30,14 @@ const App: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Smooth scroll back to top
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Filter Functions
+  // ===== FILTER HELPER FUNCTIONS =====
+
+  // Add or remove a train class from filter
   const toggleClass = (className: string) => {
     setSelectedClasses(prev =>
       prev.includes(className)
@@ -40,6 +46,7 @@ const App: React.FC = () => {
     );
   };
 
+  // Add or remove a time slot from filter
   const toggleTimeSlot = (timeSlot: string) => {
     setSelectedTimeSlots(prev =>
       prev.includes(timeSlot)
@@ -48,6 +55,7 @@ const App: React.FC = () => {
     );
   };
 
+  // Clear all filters
   const resetFilters = () => {
     setSelectedClasses([]);
     setSelectedTimeSlots([]);
@@ -55,18 +63,18 @@ const App: React.FC = () => {
     setSortBy('optimized');
   };
 
-  // Filter trains based on selected criteria
+  // ===== MAIN FILTER FUNCTION - Filters and sorts trains =====
   const getFilteredTrains = () => {
-    let filtered = [...mockTrains];
+    let filtered = [...mockTrains]; // Start with all trains
 
-    // Filter by Route (From -> To)
+    // STEP 1: Filter by route (from station -> to station)
     if (searchParams.from && searchParams.to) {
       filtered = filtered.filter(train =>
         train.fromCode === searchParams.from && train.toCode === searchParams.to
       );
     }
 
-    // Filter by class
+    // STEP 2: Filter by train class (AC, Sleeper, etc)
     if (selectedClasses.length > 0) {
       filtered = filtered.filter(train =>
         train.classes.some(cls => {
@@ -79,26 +87,26 @@ const App: React.FC = () => {
       );
     }
 
-    // Filter by time slot
+    // STEP 3: Filter by departure time (morning, afternoon, evening, night)
     if (selectedTimeSlots.length > 0) {
       filtered = filtered.filter(train => {
         const depHour = parseInt(train.departure.split(':')[0]);
         return selectedTimeSlots.some(slot => {
           switch (slot) {
-            case '00-06h': return depHour >= 0 && depHour < 6;
-            case '06-12h': return depHour >= 6 && depHour < 12;
-            case '12-18h': return depHour >= 12 && depHour < 18;
-            case '18-24h': return depHour >= 18 && depHour < 24;
+            case '00-06h': return depHour >= 0 && depHour < 6; // Night
+            case '06-12h': return depHour >= 6 && depHour < 12; // Morning
+            case '12-18h': return depHour >= 12 && depHour < 18; // Afternoon
+            case '18-24h': return depHour >= 18 && depHour < 24; // Evening
             default: return false;
           }
         });
       });
     }
 
-    // Sort trains
+    // STEP 4: Sort the filtered trains
     switch (sortBy) {
       case 'optimized':
-        // Sort by duration (shortest first)
+        // Sort by journey duration (shortest first)
         filtered.sort((a, b) => {
           const aDur = parseInt(a.duration.split('h')[0]);
           const bDur = parseInt(b.duration.split('h')[0]);
@@ -106,7 +114,7 @@ const App: React.FC = () => {
         });
         break;
       case 'credits':
-        // Sort by minimum fare (cheapest first)
+        // Sort by price (cheapest first)
         filtered.sort((a, b) => {
           const aMin = Math.min(...a.classes.map(c => c.fare));
           const bMin = Math.min(...b.classes.map(c => c.fare));
@@ -133,321 +141,316 @@ const App: React.FC = () => {
       <Header />
 
 
+      {/* Hero Section */}
+      <section className="relative h-[500px] sm:h-[600px] lg:h-[650px] flex flex-col items-center justify-center text-center px-4 overflow-hidden">
+        {/* Hero Train Image Background */}
+        <div className="absolute inset-0 z-0 opacity-10">
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#020617]/60 to-[#020617] z-10"></div>
+          <img
+            src="/vande-bharat-train.png"
+            alt="Background"
+            className="w-full h-full object-cover object-center blur-sm scale-110"
+          />
+        </div>
 
+        {/* Static Translucent Train Image */}
+        <div className="absolute inset-0 z-5 opacity-20 pointer-events-none select-none">
+          <img
+            src="/vande-bharat-train.png"
+            alt="Vande Bharat Overlay"
+            className="w-full h-full object-cover"
+          />
+        </div>
 
-      <main className="relative pt-16 sm:pt-20 pb-12 sm:pb-16 lg:pb-20">
-
-        {/* Hero Section */}
-        <section className="relative h-[500px] sm:h-[600px] lg:h-[650px] flex flex-col items-center justify-center text-center px-4 overflow-hidden">
-          {/* Hero Train Image Background */}
-          <div className="absolute inset-0 z-0 opacity-10">
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#020617]/60 to-[#020617] z-10"></div>
-            <img
-              src="/vande-bharat-train.png"
-              alt="Background"
-              className="w-full h-full object-cover object-center blur-sm scale-110"
-            />
+        <div className="max-w-5xl mx-auto mb-8 sm:mb-12 lg:mb-16 animate-in fade-in zoom-in duration-1000 relative z-20 px-4">
+          <div className="inline-flex items-center space-x-2 sm:space-x-3 bg-white/5 px-3 sm:px-6 py-1.5 sm:py-2 rounded-full border border-white/10 mb-6 sm:mb-8 backdrop-blur-md">
+            <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-cyan-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(0,242,255,1)]"></div>
+            <span className="text-[8px] sm:text-[10px] font-black text-slate-300 tracking-[0.2em] sm:tracking-[0.4em] uppercase">System Online</span>
           </div>
+          <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-8xl font-black text-white mb-4 sm:mb-6 lg:mb-8 font-outfit tracking-tighter leading-tight px-2">
+            THE FUTURE OF <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 neon-text-blue">
+              INDIAN SPEED
+            </span>
+          </h2>
+          <p className="text-sm sm:text-lg lg:text-xl text-slate-400 font-medium max-w-3xl mx-auto leading-relaxed opacity-90 px-2">
+            Ultra-responsive booking engine paired with the elegance of India's flagship Vande Bharat Express.
+          </p>
 
-          {/* Static Translucent Train Image */}
-          <div className="absolute inset-0 z-5 opacity-20 pointer-events-none select-none">
-            <img
-              src="/vande-bharat-train.png"
-              alt="Vande Bharat Overlay"
-              className="w-full h-full object-cover"
-            />
+          {/* Futuristic Stats Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mt-8 sm:mt-12 max-w-3xl mx-auto">
+            {[
+              { label: 'Max Speed', value: '180', unit: 'KM/H', color: 'cyan' },
+              { label: 'Routes', value: '50+', unit: 'ACTIVE', color: 'orange' },
+              { label: 'Uptime', value: '99.9', unit: '%', color: 'blue' }
+            ].map((stat) => (
+              <div key={stat.label} className={`glass p-4 sm:p-5 rounded-2xl border border-white/10 backdrop-blur-md hover:border-${stat.color}-500/30 transition-all group`}>
+                <div className={`text-2xl sm:text-3xl font-black text-${stat.color}-400 font-outfit`}>{stat.value}</div>
+                <div className="text-[8px] sm:text-[9px] text-slate-500 uppercase tracking-widest mt-1">{stat.unit}</div>
+                <div className="text-[7px] sm:text-[8px] text-slate-600 uppercase tracking-wider mt-1">{stat.label}</div>
+              </div>
+            ))}
           </div>
+        </div>
 
-          <div className="max-w-5xl mx-auto mb-8 sm:mb-12 lg:mb-16 animate-in fade-in zoom-in duration-1000 relative z-20 px-4">
-            <div className="inline-flex items-center space-x-2 sm:space-x-3 bg-white/5 px-3 sm:px-6 py-1.5 sm:py-2 rounded-full border border-white/10 mb-6 sm:mb-8 backdrop-blur-md">
-              <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-cyan-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(0,242,255,1)]"></div>
-              <span className="text-[8px] sm:text-[10px] font-black text-slate-300 tracking-[0.2em] sm:tracking-[0.4em] uppercase">Phase 4.0 Infrastructure Live</span>
-            </div>
-            <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-8xl font-black text-white mb-4 sm:mb-6 lg:mb-8 font-outfit tracking-tighter leading-tight px-2">
-              THE FUTURE OF <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 neon-text-blue">
-                INDIAN SPEED
-              </span>
-            </h2>
-            <p className="text-sm sm:text-lg lg:text-xl text-slate-400 font-medium max-w-3xl mx-auto leading-relaxed opacity-90 px-2">
-              Ultra-responsive booking engine paired with the elegance of India's flagship Vande Bharat Express.
-            </p>
+        {/* Decorative Noise Texture */}
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none z-10"></div>
+      </section>
 
-            {/* Futuristic Stats Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mt-8 sm:mt-12 max-w-3xl mx-auto">
-              {[
-                { label: 'Max Speed', value: '180', unit: 'KM/H', color: 'cyan' },
-                { label: 'Routes', value: '50+', unit: 'ACTIVE', color: 'orange' },
-                { label: 'Uptime', value: '99.9', unit: '%', color: 'blue' }
-              ].map((stat) => (
-                <div key={stat.label} className="glass p-4 sm:p-5 rounded-2xl border border-white/10 backdrop-blur-md hover:border-${stat.color}-500/30 transition-all group">
-                  <div className={`text-2xl sm:text-3xl font-black text-${stat.color}-400 font-outfit`}>{stat.value}</div>
-                  <div className="text-[8px] sm:text-[9px] text-slate-500 uppercase tracking-widest mt-1">{stat.unit}</div>
-                  <div className="text-[7px] sm:text-[8px] text-slate-600 uppercase tracking-wider mt-1">{stat.label}</div>
+      {/* Search Component */}
+      <SearchForm onSearch={setSearchParams} />
+
+      {/* Results Section */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 sm:mt-16 lg:mt-20 relative z-10">
+        {/* Mobile Filter Toggle Button */}
+        <div className="xl:hidden mb-6 flex items-center justify-between">
+          <h2 className="text-xl sm:text-2xl font-black text-white font-outfit tracking-tight">
+            Available Trains <span className="text-cyan-500">({String(filteredTrains.length).padStart(2, '0')})</span>
+          </h2>
+          <button
+            onClick={() => setIsFiltersOpen(!isFiltersOpen)}
+            className="flex items-center space-x-2 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-white text-xs font-black uppercase tracking-widest transition-all"
+          >
+            <SlidersHorizontal className="w-4 h-4 text-cyan-400" />
+            <span>Filters</span>
+          </button>
+        </div>
+
+        <div className="flex flex-col xl:flex-row gap-6 sm:gap-8 lg:gap-12">
+
+          {/* Sidebar Filters */}
+          <aside className={`xl:w-80 shrink-0 ${isFiltersOpen ? 'block' : 'hidden'} xl:block`}>
+            <div className="glass sticky top-24 xl:top-36 rounded-[24px] sm:rounded-[36px] overflow-hidden p-1 shadow-2xl neon-border">
+              <div className="bg-[#020617]/90 rounded-[35px] p-8">
+                <div className="flex items-center justify-between mb-10">
+                  <h3 className="text-[11px] font-black text-white uppercase tracking-[0.3em] flex items-center">
+                    <SlidersHorizontal className="w-4 h-4 mr-3 text-cyan-400" />
+                    Filters
+                  </h3>
+                  <button
+                    onClick={resetFilters}
+                    className="text-[9px] font-black text-cyan-500 uppercase tracking-widest hover:text-white transition-colors"
+                  >
+                    Reset
+                  </button>
                 </div>
-              ))}
+
+                <div className="space-y-10">
+                  <div>
+                    <h4 className="text-[9px] font-black text-slate-500 uppercase tracking-[0.4em] mb-6">Class Type</h4>
+                    <div className="space-y-4">
+                      {['AC First Class', 'AC 2 Tier', 'AC 3 Tier', 'Sleeper', 'Vande Bharat EC'].map((cls) => (
+                        <label key={cls} className="flex items-center space-x-4 cursor-pointer group">
+                          <div className="relative w-5 h-5 flex items-center justify-center">
+                            <input
+                              type="checkbox"
+                              className="peer absolute inset-0 opacity-0 cursor-pointer z-10"
+                              checked={selectedClasses.includes(cls)}
+                              onChange={() => toggleClass(cls)}
+                            />
+                            <div className="w-full h-full border border-white/20 rounded-md bg-white/5 peer-checked:bg-cyan-500 peer-checked:border-cyan-400 transition-all"></div>
+                            <Check className="w-3 h-3 text-black font-black hidden peer-checked:block absolute z-10 pointer-events-none" />
+                          </div>
+                          <span className="text-[11px] font-bold text-slate-400 group-hover:text-white transition-colors uppercase tracking-widest">{cls}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="text-[9px] font-black text-slate-500 uppercase tracking-[0.4em] mb-6">Departure Time</h4>
+                    <div className="grid grid-cols-2 gap-3">
+                      {['00-06h', '06-12h', '12-18h', '18-24h'].map((time) => (
+                        <button
+                          key={time}
+                          onClick={() => toggleTimeSlot(time)}
+                          className={`px-3 py-3 rounded-xl border text-[10px] font-bold transition-all uppercase tracking-widest
+                              ${selectedTimeSlots.includes(time)
+                              ? 'bg-cyan-500 border-cyan-400 text-black shadow-[0_0_15px_rgba(0,242,255,0.3)]'
+                              : 'bg-white/5 border-white/5 text-slate-500 hover:bg-white/10 hover:text-white hover:border-white/20'
+                            }`}
+                        >
+                          {time}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="pt-6 border-t border-white/5">
+                    <div className="p-5 bg-white/5 rounded-2xl border border-white/5 flex items-center space-x-4">
+                      <Activity className="w-6 h-6 text-cyan-500" />
+                      <div>
+                        <div className="text-[10px] font-black text-white">SYSTEM STATUS</div>
+                        <div className="text-[9px] text-slate-500 uppercase">ONLINE</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
+          </aside>
 
-          {/* Decorative Noise Texture */}
-          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none z-10"></div>
-        </section>
+          {/* Results List */}
+          <div className="flex-1 min-w-0">
+            {/* Sort & Info Bar */}
+            <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between mb-8 sm:mb-12 gap-4 sm:gap-6 lg:gap-8 px-2 sm:px-4">
+              <div className="space-y-2 w-full lg:w-auto">
+                <h2 className="text-2xl sm:text-3xl font-black text-white font-outfit tracking-tight">
+                  Available Trains <span className="text-cyan-500">({String(filteredTrains.length).padStart(2, '0')})</span>
+                </h2>
+                <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-[9px] sm:text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] sm:tracking-[0.3em]">
+                  <span className="flex items-center text-cyan-400"><Globe className="w-3 h-3 mr-1 sm:mr-2" /> NDLS</span>
+                  <span className="text-white/20 hidden sm:inline">|</span>
+                  <span>Varanasi</span>
+                  <span className="text-white/20 hidden sm:inline">|</span>
+                  <span className="text-slate-300">15 Dec 2024</span>
+                </div>
+              </div>
+              <div className="flex items-center bg-white/5 p-1 sm:p-2 rounded-xl sm:rounded-2xl border border-white/10 backdrop-blur-md w-full lg:w-auto">
+                <button
+                  onClick={() => setSortBy('optimized')}
+                  className={`flex-1 sm:flex-initial px-3 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all
+                      ${sortBy === 'optimized'
+                      ? 'bg-cyan-500 text-black shadow-lg shadow-cyan-500/20'
+                      : 'text-slate-400 hover:text-white'
+                    }`}
+                >
+                  Recommended
+                </button>
+                <button
+                  onClick={() => setSortBy('credits')}
+                  className={`flex-1 sm:flex-initial px-3 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all
+                      ${sortBy === 'credits'
+                      ? 'bg-cyan-500 text-black shadow-lg shadow-cyan-500/20'
+                      : 'text-slate-400 hover:text-white'
+                    }`}
+                >
+                  Price
+                </button>
+                <button
+                  onClick={() => setSortBy('timeline')}
+                  className={`flex-1 sm:flex-initial px-3 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all
+                      ${sortBy === 'timeline'
+                      ? 'bg-cyan-500 text-black shadow-lg shadow-cyan-500/20'
+                      : 'text-slate-400 hover:text-white'
+                    }`}
+                >
+                  Departure
+                </button>
+              </div>
+            </div>
 
-        {/* Search Component */}
-        <SearchForm onSearch={setSearchParams} />
-
-        {/* Results Section */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 sm:mt-16 lg:mt-20 relative z-10">
-          {/* Mobile Filter Toggle Button */}
-          <div className="xl:hidden mb-6 flex items-center justify-between">
-            <h2 className="text-xl sm:text-2xl font-black text-white font-outfit tracking-tight">
-              Available Vectors <span className="text-cyan-500">({String(filteredTrains.length).padStart(2, '0')})</span>
-            </h2>
-            <button
-              onClick={() => setIsFiltersOpen(!isFiltersOpen)}
-              className="flex items-center space-x-2 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-white text-xs font-black uppercase tracking-widest transition-all"
-            >
-              <SlidersHorizontal className="w-4 h-4 text-cyan-400" />
-              <span>Filters</span>
-            </button>
-          </div>
-
-          <div className="flex flex-col xl:flex-row gap-6 sm:gap-8 lg:gap-12">
-
-            {/* Sidebar Filters */}
-            <aside className={`xl:w-80 shrink-0 ${isFiltersOpen ? 'block' : 'hidden'} xl:block`}>
-              <div className="glass sticky top-24 xl:top-36 rounded-[24px] sm:rounded-[36px] overflow-hidden p-1 shadow-2xl neon-border">
-                <div className="bg-[#020617]/90 rounded-[35px] p-8">
-                  <div className="flex items-center justify-between mb-10">
-                    <h3 className="text-[11px] font-black text-white uppercase tracking-[0.3em] flex items-center">
-                      <SlidersHorizontal className="w-4 h-4 mr-3 text-cyan-400" />
-                      Parameters
-                    </h3>
+            {/* Train Cards */}
+            <div className="space-y-4">
+              {filteredTrains.length > 0 ? (
+                filteredTrains.map((train) => (
+                  <TrainCard key={train.id} train={train} />
+                ))
+              ) : (
+                <div className="p-8 sm:p-12 lg:p-16 glass rounded-[24px] sm:rounded-[32px] lg:rounded-[40px] text-center border-2 border-dashed border-white/10">
+                  <div className="max-w-md mx-auto">
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-cyan-500/10 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
+                      <Filter className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-cyan-500" />
+                    </div>
+                    <h3 className="text-xl sm:text-2xl font-black text-white mb-2 sm:mb-3 font-outfit tracking-tight">No Trains Found</h3>
+                    <p className="text-sm sm:text-base text-slate-500 mb-4 sm:mb-6 font-medium leading-relaxed px-2">
+                      No trains match your current filter criteria. Try adjusting your filters or reset to see all available options.
+                    </p>
                     <button
                       onClick={resetFilters}
-                      className="text-[9px] font-black text-cyan-500 uppercase tracking-widest hover:text-white transition-colors"
+                      className="px-6 sm:px-8 py-2.5 sm:py-3 bg-cyan-500 text-black rounded-lg sm:rounded-xl text-[9px] sm:text-[10px] font-black uppercase tracking-widest hover:shadow-[0_15px_35px_rgba(0,242,255,0.3)] transition-all"
                     >
-                      Reset
+                      Reset All Filters
                     </button>
                   </div>
-
-                  <div className="space-y-10">
-                    <div>
-                      <h4 className="text-[9px] font-black text-slate-500 uppercase tracking-[0.4em] mb-6">Class Modules</h4>
-                      <div className="space-y-4">
-                        {['AC First Class', 'AC 2 Tier', 'AC 3 Tier', 'Sleeper', 'Vande Bharat EC'].map((cls) => (
-                          <label key={cls} className="flex items-center space-x-4 cursor-pointer group">
-                            <div className="relative w-5 h-5 flex items-center justify-center">
-                              <input
-                                type="checkbox"
-                                className="peer absolute inset-0 opacity-0 cursor-pointer z-10"
-                                checked={selectedClasses.includes(cls)}
-                                onChange={() => toggleClass(cls)}
-                              />
-                              <div className="w-full h-full border border-white/20 rounded-md bg-white/5 peer-checked:bg-cyan-500 peer-checked:border-cyan-400 transition-all"></div>
-                              <Check className="w-3 h-3 text-black font-black hidden peer-checked:block absolute z-10 pointer-events-none" />
-                            </div>
-                            <span className="text-[11px] font-bold text-slate-400 group-hover:text-white transition-colors uppercase tracking-widest">{cls}</span>
-                          </label>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div>
-                      <h4 className="text-[9px] font-black text-slate-500 uppercase tracking-[0.4em] mb-6">Temporal Window</h4>
-                      <div className="grid grid-cols-2 gap-3">
-                        {['00-06h', '06-12h', '12-18h', '18-24h'].map((time) => (
-                          <button
-                            key={time}
-                            onClick={() => toggleTimeSlot(time)}
-                            className={`px-3 py-3 rounded-xl border text-[10px] font-bold transition-all uppercase tracking-widest
-                              ${selectedTimeSlots.includes(time)
-                                ? 'bg-cyan-500 border-cyan-400 text-black shadow-[0_0_15px_rgba(0,242,255,0.3)]'
-                                : 'bg-white/5 border-white/5 text-slate-500 hover:bg-white/10 hover:text-white hover:border-white/20'
-                              }`}
-                          >
-                            {time}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="pt-6 border-t border-white/5">
-                      <div className="p-5 bg-white/5 rounded-2xl border border-white/5 flex items-center space-x-4">
-                        <Activity className="w-6 h-6 text-cyan-500" />
-                        <div>
-                          <div className="text-[10px] font-black text-white">NETWORK LOAD</div>
-                          <div className="text-[9px] text-slate-500 uppercase">OPTIMAL - 42ms</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
-              </div>
-            </aside>
+              )}
+            </div>
 
-            {/* Results List */}
-            <div className="flex-1 min-w-0">
-              {/* Sort & Info Bar */}
-              <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between mb-8 sm:mb-12 gap-4 sm:gap-6 lg:gap-8 px-2 sm:px-4">
-                <div className="space-y-2 w-full lg:w-auto">
-                  <h2 className="text-2xl sm:text-3xl font-black text-white font-outfit tracking-tight">
-                    Available Vectors <span className="text-cyan-500">({String(filteredTrains.length).padStart(2, '0')})</span>
-                  </h2>
-                  <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-[9px] sm:text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] sm:tracking-[0.3em]">
-                    <span className="flex items-center text-cyan-400"><Globe className="w-3 h-3 mr-1 sm:mr-2" /> NDLS Hub</span>
-                    <span className="text-white/20 hidden sm:inline">|</span>
-                    <span>Varanasi Vector</span>
-                    <span className="text-white/20 hidden sm:inline">|</span>
-                    <span className="text-slate-300">15 Dec 2024</span>
-                  </div>
-                </div>
-                <div className="flex items-center bg-white/5 p-1 sm:p-2 rounded-xl sm:rounded-2xl border border-white/10 backdrop-blur-md w-full lg:w-auto">
-                  <button
-                    onClick={() => setSortBy('optimized')}
-                    className={`flex-1 sm:flex-initial px-3 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all
-                      ${sortBy === 'optimized'
-                        ? 'bg-cyan-500 text-black shadow-lg shadow-cyan-500/20'
-                        : 'text-slate-400 hover:text-white'
-                      }`}
-                  >
-                    Optimized
-                  </button>
-                  <button
-                    onClick={() => setSortBy('credits')}
-                    className={`flex-1 sm:flex-initial px-3 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all
-                      ${sortBy === 'credits'
-                        ? 'bg-cyan-500 text-black shadow-lg shadow-cyan-500/20'
-                        : 'text-slate-400 hover:text-white'
-                      }`}
-                  >
-                    Credits
-                  </button>
-                  <button
-                    onClick={() => setSortBy('timeline')}
-                    className={`flex-1 sm:flex-initial px-3 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all
-                      ${sortBy === 'timeline'
-                        ? 'bg-cyan-500 text-black shadow-lg shadow-cyan-500/20'
-                        : 'text-slate-400 hover:text-white'
-                      }`}
-                  >
-                    Timeline
-                  </button>
-                </div>
-              </div>
+            {/* IRCTC Nexus Hub - Information Section */}
+            <div className="mt-12 sm:mt-16 space-y-8 sm:space-y-12">
+              <div className="glass rounded-[24px] sm:rounded-[32px] lg:rounded-[40px] overflow-hidden border border-white/10 relative p-6 sm:p-8 lg:p-12">
+                {/* Background Accents */}
+                <div className="absolute top-0 right-0 w-64 sm:w-96 h-64 sm:h-96 bg-cyan-500/5 rounded-full blur-[100px] -mr-32 sm:-mr-48 -mt-32 sm:-mt-48 pointer-events-none"></div>
+                <div className="absolute bottom-0 left-0 w-64 sm:w-96 h-64 sm:h-96 bg-orange-500/5 rounded-full blur-[100px] -ml-32 sm:-ml-48 -mb-32 sm:-mb-48 pointer-events-none"></div>
 
-              {/* Train Cards */}
-              <div className="space-y-4">
-                {filteredTrains.length > 0 ? (
-                  filteredTrains.map((train) => (
-                    <TrainCard key={train.id} train={train} />
-                  ))
-                ) : (
-                  <div className="p-8 sm:p-12 lg:p-16 glass rounded-[24px] sm:rounded-[32px] lg:rounded-[40px] text-center border-2 border-dashed border-white/10">
-                    <div className="max-w-md mx-auto">
-                      <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-cyan-500/10 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
-                        <Filter className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-cyan-500" />
+                <div className="relative z-10">
+                  <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8 sm:gap-12">
+                    <div className="flex-1 space-y-6 sm:space-y-8 w-full">
+                      <div className="inline-flex items-center space-x-2 sm:space-x-3 bg-white/5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-white/10">
+                        <Zap className="w-3 h-3 sm:w-4 sm:h-4 text-cyan-400 animate-pulse" />
+                        <span className="text-[9px] sm:text-[10px] font-black text-slate-300 tracking-[0.2em] sm:tracking-[0.3em] uppercase">System Overview</span>
                       </div>
-                      <h3 className="text-xl sm:text-2xl font-black text-white mb-2 sm:mb-3 font-outfit tracking-tight">No Vectors Found</h3>
-                      <p className="text-sm sm:text-base text-slate-500 mb-4 sm:mb-6 font-medium leading-relaxed px-2">
-                        No trains match your current filter criteria. Try adjusting your filters or reset to see all available options.
+
+                      <h3 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white font-outfit leading-tight tracking-tighter">
+                        IRCTC <span className="text-cyan-400">NEXT</span> <br />
+                        <span className="text-slate-500">GENERATION</span>
+                      </h3>
+
+                      <p className="text-slate-400 font-medium text-base sm:text-lg leading-relaxed max-w-xl">
+                        As the digital backbone of Indian Railways, IRCTC orchestrates one of the world's largest e-commerce platforms, processing millions of requests with millisecond precision.
                       </p>
-                      <button
-                        onClick={resetFilters}
-                        className="px-6 sm:px-8 py-2.5 sm:py-3 bg-cyan-500 text-black rounded-lg sm:rounded-xl text-[9px] sm:text-[10px] font-black uppercase tracking-widest hover:shadow-[0_15px_35px_rgba(0,242,255,0.3)] transition-all"
-                      >
-                        Reset All Filters
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
 
-              {/* IRCTC Nexus Hub - Information Section */}
-              <div className="mt-12 sm:mt-16 space-y-8 sm:space-y-12">
-                <div className="glass rounded-[24px] sm:rounded-[32px] lg:rounded-[40px] overflow-hidden border border-white/10 relative p-6 sm:p-8 lg:p-12">
-                  {/* Background Accents */}
-                  <div className="absolute top-0 right-0 w-64 sm:w-96 h-64 sm:h-96 bg-cyan-500/5 rounded-full blur-[100px] -mr-32 sm:-mr-48 -mt-32 sm:-mt-48 pointer-events-none"></div>
-                  <div className="absolute bottom-0 left-0 w-64 sm:w-96 h-64 sm:h-96 bg-orange-500/5 rounded-full blur-[100px] -ml-32 sm:-ml-48 -mb-32 sm:-mb-48 pointer-events-none"></div>
-
-                  <div className="relative z-10">
-                    <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8 sm:gap-12">
-                      <div className="flex-1 space-y-6 sm:space-y-8 w-full">
-                        <div className="inline-flex items-center space-x-2 sm:space-x-3 bg-white/5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-white/10">
-                          <Zap className="w-3 h-3 sm:w-4 sm:h-4 text-cyan-400 animate-pulse" />
-                          <span className="text-[9px] sm:text-[10px] font-black text-slate-300 tracking-[0.2em] sm:tracking-[0.3em] uppercase">Global Infrastructure Dashboard</span>
-                        </div>
-
-                        <h3 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white font-outfit leading-tight tracking-tighter">
-                          IRCTC <span className="text-cyan-400">NEXUS</span> <br />
-                          <span className="text-slate-500">INTELLIGENCE</span>
-                        </h3>
-
-                        <p className="text-slate-400 font-medium text-base sm:text-lg leading-relaxed max-w-xl">
-                          As the digital backbone of Indian Railways, IRCTC orchestrates one of the world's largest e-commerce platforms, processing millions of requests with millisecond precision.
-                        </p>
-
-                        <div className="flex flex-wrap gap-3 sm:gap-4">
-                          <button className="px-6 sm:px-8 py-3 sm:py-4 bg-cyan-500 text-black rounded-xl sm:rounded-2xl text-[10px] sm:text-[11px] font-black uppercase tracking-widest hover:bg-cyan-400 transition-all shadow-[0_10px_20px_rgba(0,242,255,0.2)]">
-                            Explore Official Portal
-                          </button>
-                          {/* <button className="px-8 py-4 bg-white/5 text-white border border-white/10 rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-white/10 transition-all">
+                      <div className="flex flex-wrap gap-3 sm:gap-4">
+                        <button className="px-6 sm:px-8 py-3 sm:py-4 bg-cyan-500 text-black rounded-xl sm:rounded-2xl text-[10px] sm:text-[11px] font-black uppercase tracking-widest hover:bg-cyan-400 transition-all shadow-[0_10px_20px_rgba(0,242,255,0.2)]">
+                          Explore Official Portal
+                        </button>
+                        {/* <button className="px-8 py-4 bg-white/5 text-white border border-white/10 rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-white/10 transition-all">
                             Investor Relations
                           </button> */}
-                        </div>
                       </div>
+                    </div>
 
-                      <div className="flex-1 w-full grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                        {[
-                          { label: 'Daily Bookings', value: '1.5M+', icon: <Activity className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400" />, sub: 'Real-time Processed' },
-                          { label: 'Network Coverage', value: '68K+', icon: <Globe className="w-4 h-4 sm:w-5 sm:h-5 text-orange-400" />, sub: 'Kilometers of Track' },
-                          { label: 'Annual Users', value: '800M+', icon: <Users className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />, sub: 'Active Travelers' },
-                          { label: 'Stations Hub', value: '7,300+', icon: <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" />, sub: 'Direct Connections' }
-                        ].map((stat, i) => (
-                          <div key={i} className="bg-white/5 border border-white/10 p-4 sm:p-6 rounded-2xl sm:rounded-3xl hover:border-white/20 transition-all group">
-                            <div className="flex items-center justify-between mb-3 sm:mb-4">
-                              <div className="p-2 sm:p-3 bg-white/5 rounded-xl sm:rounded-2xl group-hover:bg-white/10 transition-colors">
-                                {stat.icon}
-                              </div>
-                              <div className="w-1.5 h-1.5 rounded-full bg-cyan-500/50"></div>
+                    <div className="flex-1 w-full grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                      {[
+                        { label: 'Daily Bookings', value: '1.5M+', icon: <Activity className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400" />, sub: 'Real-time Processed' },
+                        { label: 'Network Coverage', value: '68K+', icon: <Globe className="w-4 h-4 sm:w-5 sm:h-5 text-orange-400" />, sub: 'Kilometers of Track' },
+                        { label: 'Annual Users', value: '800M+', icon: <Users className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />, sub: 'Active Travelers' },
+                        { label: 'Stations Hub', value: '7,300+', icon: <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" />, sub: 'Direct Connections' }
+                      ].map((stat, i) => (
+                        <div key={i} className="bg-white/5 border border-white/10 p-4 sm:p-6 rounded-2xl sm:rounded-3xl hover:border-white/20 transition-all group">
+                          <div className="flex items-center justify-between mb-3 sm:mb-4">
+                            <div className="p-2 sm:p-3 bg-white/5 rounded-xl sm:rounded-2xl group-hover:bg-white/10 transition-colors">
+                              {stat.icon}
                             </div>
-                            <div className="text-xl sm:text-2xl font-black text-white font-outfit">{stat.value}</div>
-                            <div className="text-[9px] sm:text-[10px] font-black text-slate-500 uppercase tracking-widest mt-1">{stat.label}</div>
-                            <div className="text-[7px] sm:text-[8px] text-slate-600 font-medium uppercase mt-2">{stat.sub}</div>
+                            <div className="w-1.5 h-1.5 rounded-full bg-cyan-500/50"></div>
                           </div>
-                        ))}
-                      </div>
+                          <div className="text-xl sm:text-2xl font-black text-white font-outfit">{stat.value}</div>
+                          <div className="text-[9px] sm:text-[10px] font-black text-slate-500 uppercase tracking-widest mt-1">{stat.label}</div>
+                          <div className="text-[7px] sm:text-[8px] text-slate-600 font-medium uppercase mt-2">{stat.sub}</div>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
+              </div>
 
-                {/* Capabilities Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-                  {[
-                    { title: 'Next-Gen E-Ticketing', desc: 'Frictionless booking engine with 120,000 requests per minute capacity.', icon: <Smartphone className="text-cyan-400" /> },
-                    { title: 'Premium Catering', desc: 'Strategic hospitality network serving high-quality meals across 1,500+ trains.', icon: <Coffee className="text-orange-400" /> },
-                    { title: 'Luxury Tourism', desc: 'Curated experiences featuring the Palace on Wheels and Bharat Gaurav specials.', icon: <Award className="text-purple-400" /> },
-                    { title: 'Corporate Logistics', desc: 'End-to-end supply chain integration for large-scale institutional services.', icon: <Briefcase className="text-emerald-400" /> }
-                  ].map((cap, i) => (
-                    <div key={i} className="glass p-8 rounded-[32px] border border-white/5 hover:border-cyan-500/30 transition-all group relative overflow-hidden">
-                      <div className="absolute top-0 right-0 p-4 opacity-[0.05] group-hover:opacity-[0.1] transition-opacity">
-                        {React.cloneElement(cap.icon as React.ReactElement, { size: 64 })}
-                      </div>
-                      <div className="relative z-10">
-                        <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center mb-6 group-hover:bg-white/10 transition-colors">
-                          {cap.icon}
-                        </div>
-                        <h4 className="text-sm font-black text-white uppercase tracking-widest mb-3">{cap.title}</h4>
-                        <p className="text-xs text-slate-500 leading-relaxed font-medium">{cap.desc}</p>
-                      </div>
+              {/* Capabilities Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                {[
+                  { title: 'E-Ticketing', desc: 'Fast and easy ticket booking system.', icon: <Smartphone className="text-cyan-400" /> },
+                  { title: 'Catering', desc: 'Delicious meals served centrally.', icon: <Coffee className="text-orange-400" /> },
+                  { title: 'Tourism', desc: 'Special tourist trains and packages.', icon: <Award className="text-purple-400" /> },
+                  { title: 'Logistics', desc: 'Reliable transport services.', icon: <Briefcase className="text-emerald-400" /> }
+                ].map((cap, i) => (
+                  <div key={i} className="glass p-8 rounded-[32px] border border-white/5 hover:border-cyan-500/30 transition-all group relative overflow-hidden">
+                    <div className="absolute top-0 right-0 p-4 opacity-[0.05] group-hover:opacity-[0.1] transition-opacity">
+                      {React.cloneElement(cap.icon as React.ReactElement, { size: 64 })}
                     </div>
-                  ))}
-                </div>
+                    <div className="relative z-10">
+                      <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center mb-6 group-hover:bg-white/10 transition-colors">
+                        {cap.icon}
+                      </div>
+                      <h4 className="text-sm font-black text-white uppercase tracking-widest mb-3">{cap.title}</h4>
+                      <p className="text-xs text-slate-500 leading-relaxed font-medium">{cap.desc}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         </div>
-      </main>
+      </div>
 
       {/* Social Media Connection Bar */}
       <div className="relative bg-gradient-to-r from-purple-900 via-indigo-900 to-purple-900 py-4 sm:py-6 border-t border-white/10">

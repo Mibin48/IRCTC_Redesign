@@ -4,70 +4,90 @@ import { Clock, Navigation, Calendar, Info, ShieldCheck, Wifi, Coffee, Star, Che
 import { Train } from '../types';
 
 interface TrainCardProps {
-  train: Train;
+  train: Train; // Train data to display
 }
 
+/**
+ * TrainCard Component - Shows a single train with all details
+ * Allows users to:
+ * 1. View train schedule and details
+ * 2. Check available seats and prices
+ * 3. Book seats for their journey
+ */
 const TrainCard: React.FC<TrainCardProps> = ({ train }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [isCheckingFare, setIsCheckingFare] = useState(false);
-  const [isBooking, setIsBooking] = useState(false); // Used for loading state of final confirm
-  const [fareChecked, setFareChecked] = useState(false);
-  const [booked, setBooked] = useState(false);
+  // ===== EXPANSION STATE =====
+  const [isExpanded, setIsExpanded] = useState(false); // Show/hide details
 
-  // Seat Selection State
-  const [isSeatModalOpen, setIsSeatModalOpen] = useState(false);
-  const [selectedSeats, setSelectedSeats] = useState<number[]>([]);
+  // ===== SEAT AND BOOKING STATE =====
+  const [isSeatModalOpen, setIsSeatModalOpen] = useState(false); // Show seat selection modal
+  const [selectedSeats, setSelectedSeats] = useState<number[]>([]); // Selected seat numbers
+  const [isBooking, setIsBooking] = useState(false); // Show loading when booking
+  const [booked, setBooked] = useState(false); // Show success after booking
 
-  // Mock Seat Data (generated once)
-  const [seats] = useState(() => Array.from({ length: 48 }, (_, i) => ({
-    id: i + 1,
-    status: Math.random() > 0.7 ? 'booked' : 'available' as 'available' | 'booked'
-  })));
+  // ===== FARE CHECK STATE =====
+  const [isCheckingFare, setIsCheckingFare] = useState(false); // Show loading when checking prices
+  const [fareChecked, setFareChecked] = useState(false); // Show success after checking
 
+  // ===== MOCK SEAT DATA =====
+  // Generate 48 seats with random availability (30% booked, 70% available)
+  const [seats] = useState(() =>
+    Array.from({ length: 48 }, (_, i) => ({
+      id: i + 1,
+      status: Math.random() > 0.7 ? 'booked' : 'available' as 'available' | 'booked'
+    }))
+  );
+
+  // Check if this is a Vande Bharat train (premium service)
+  const isVandeBharat = train.name.includes('VANDE BHARAT');
+
+  // Get color styling based on seat/ticket status
   const getStatusStyle = (type: string) => {
     switch (type) {
-      case 'green': return 'text-emerald-400 border-emerald-500/30 bg-emerald-500/5 shadow-[0_0_15px_rgba(16,185,129,0.1)]';
-      case 'yellow': return 'text-amber-400 border-amber-500/30 bg-amber-500/5 shadow-[0_0_15px_rgba(245,158,11,0.1)]';
-      case 'red': return 'text-rose-400 border-rose-500/30 bg-rose-500/5 shadow-[0_0_15px_rgba(244,63,94,0.1)]';
+      case 'green': return 'text-emerald-400 border-emerald-500/30 bg-emerald-500/5'; // Available
+      case 'yellow': return 'text-amber-400 border-amber-500/30 bg-amber-500/5'; // Limited
+      case 'red': return 'text-rose-400 border-rose-500/30 bg-rose-500/5'; // Booked
       default: return 'text-slate-400 border-white/10 bg-white/5';
     }
   };
 
-  const isVandeBharat = train.name.includes('VANDE BHARAT');
-
+  // Check prices for this train (simulates API call)
   const handleCheckFare = () => {
     setIsCheckingFare(true);
     setTimeout(() => {
       console.log('💰 Checking fare for:', train.name, train.number);
       setIsCheckingFare(false);
       setFareChecked(true);
-      setTimeout(() => setFareChecked(false), 2000);
+      setTimeout(() => setFareChecked(false), 2000); // Hide success after 2 seconds
     }, 1000);
   };
 
-  // Open Seat Modal
+  // Open seat selection modal
   const openSeatSelection = () => {
     setIsSeatModalOpen(true);
   };
 
+  // Toggle seat selection (max 6 seats)
   const toggleSeat = (seatId: number) => {
     if (selectedSeats.includes(seatId)) {
+      // Deselect if already selected
       setSelectedSeats(prev => prev.filter(id => id !== seatId));
     } else {
+      // Select if not already selected (max 6)
       if (selectedSeats.length < 6) {
         setSelectedSeats(prev => [...prev, seatId]);
       }
     }
   };
 
+  // Confirm and complete booking
   const confirmBooking = () => {
     setIsBooking(true);
     setTimeout(() => {
       console.log('🎫 Booking confirmed for seats:', selectedSeats);
       setIsBooking(false);
-      setIsSeatModalOpen(false);
-      setBooked(true);
-      setTimeout(() => setBooked(false), 3000);
+      setIsSeatModalOpen(false); // Close modal
+      setBooked(true); // Show success
+      setTimeout(() => setBooked(false), 3000); // Hide success after 3 seconds
     }, 1500);
   };
 
@@ -76,45 +96,45 @@ const TrainCard: React.FC<TrainCardProps> = ({ train }) => {
       <div className={`mb-8 rounded-[32px] overflow-hidden transition-all duration-500 group relative
         ${isVandeBharat ? 'ring-2 ring-orange-500/30 shadow-[0_20px_60px_rgba(255,153,51,0.1)]' : 'hover:ring-1 hover:ring-white/20'}`}>
 
-        {/* High-tech glow background for Vande Bharat */}
+        {/* Highlight for Vande Bharat premium trains */}
         {isVandeBharat && (
           <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/5 blur-[60px] rounded-full pointer-events-none"></div>
         )}
 
         <div className={`glass border-none p-4 sm:p-6 lg:p-8 relative ${isVandeBharat ? 'bg-black/40' : 'bg-white/5'}`}>
-          {/* Header: Train Number & Name */}
-          <div className="flex flex-col xl:flex-row xl:items-center justify-between mb-6 sm:mb-8 lg:mb-10 gap-4 sm:gap-6">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-3 sm:space-y-0 sm:space-x-5 w-full xl:w-auto">
-              <div className="flex items-center space-x-3 sm:space-x-5 w-full sm:w-auto">
-                <div className={`px-3 sm:px-4 lg:px-5 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-[9px] sm:text-[10px] font-black tracking-[0.15em] sm:tracking-[0.2em] border shadow-lg
-                  ${isVandeBharat ? 'bg-orange-500 border-orange-400 text-white' : 'bg-white/5 border-white/10 text-slate-300'}`}>
-                  {train.number}
-                </div>
-                <div className="space-y-1 flex-1 sm:flex-initial">
-                  <h3 className={`text-lg sm:text-xl lg:text-2xl font-black font-outfit tracking-tight ${isVandeBharat ? 'text-orange-400 neon-text-orange' : 'text-white'}`}>
-                    {train.name}
-                  </h3>
-                  <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-[8px] sm:text-[9px] font-black uppercase tracking-[0.15em] sm:tracking-[0.2em] text-slate-500">
-                    <span className="flex items-center"><Zap className="w-2.5 h-2.5 sm:w-3 sm:h-3 mr-1 text-cyan-400" /> High Priority</span>
-                    <span className="w-1 h-1 bg-slate-700 rounded-full hidden sm:inline"></span>
-                    <span className="flex items-center text-emerald-400">On Time</span>
-                  </div>
+
+          {/* TRAIN HEADER - Number, Name, Days Running */}
+          <div className="flex flex-col xl:flex-row xl:items-center justify-between mb-6 gap-4">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-3 sm:space-y-0 sm:space-x-5">
+
+              {/* Train Number Badge */}
+              <div className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-[9px] font-black tracking-[0.15em] border shadow-lg
+                ${isVandeBharat ? 'bg-orange-500 border-orange-400 text-white' : 'bg-white/5 border-white/10 text-slate-300'}`}>
+                {train.number}
+              </div>
+
+              {/* Train Name & Info */}
+              <div className="space-y-1">
+                <h3 className={`text-lg sm:text-xl lg:text-2xl font-black tracking-tight ${isVandeBharat ? 'text-orange-400' : 'text-white'}`}>
+                  {train.name}
+                </h3>
+                <div className="flex flex-wrap items-center gap-2 text-[8px] font-black uppercase text-slate-500">
+                  <span className="flex items-center"><Zap className="w-2.5 h-2.5 mr-1 text-cyan-400" /> Priority Train</span>
+                  <span className="w-1 h-1 bg-slate-700 rounded-full hidden sm:inline"></span>
+                  <span className="flex items-center text-emerald-400">On Time</span>
                 </div>
               </div>
-              {isVandeBharat && (
-                <div className="px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-white/10 border border-white/10 text-[8px] sm:text-[9px] font-black text-orange-400 uppercase tracking-widest flex items-center">
-                  <Star className="w-2.5 h-2.5 sm:w-3 sm:h-3 mr-1 sm:mr-1.5 fill-orange-400" /> 5-STAR SERVICE
-                </div>
-              )}
             </div>
-            <div className="flex items-center space-x-1 sm:space-x-2 justify-center sm:justify-start">
+
+            {/* Days Running (Mon-Sun) */}
+            <div className="flex items-center space-x-1 justify-start">
               {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((day, i) => {
                 const isActive = train.runsOn.includes(day);
                 return (
                   <div
                     key={i}
-                    className={`w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 rounded-md sm:rounded-lg flex items-center justify-center text-[9px] sm:text-[10px] font-bold border transition-all duration-300
-                      ${isActive ? 'bg-cyan-500 text-black border-cyan-400 font-black shadow-[0_0_10px_rgba(0,242,255,0.3)]' : 'bg-white/5 text-slate-600 border-white/5'}`}
+                    className={`w-6 h-6 rounded-md flex items-center justify-center text-[9px] font-bold border transition-all
+                      ${isActive ? 'bg-cyan-500 text-black border-cyan-400 font-black' : 'bg-white/5 text-slate-600 border-white/5'}`}
                   >
                     {day}
                   </div>
@@ -123,33 +143,27 @@ const TrainCard: React.FC<TrainCardProps> = ({ train }) => {
             </div>
           </div>
 
-          {/* Schedule Visualization */}
-          <div className="grid grid-cols-1 xl:grid-cols-7 gap-6 sm:gap-8 lg:gap-10 items-center mb-8 sm:mb-10 lg:mb-12">
-            <div className="xl:col-span-2 space-y-2 text-center xl:text-left">
+          {/* SCHEDULE - Departure, Duration, Arrival */}
+          <div className="flex items-center justify-between mb-6">
+            <div className="text-left">
               <div className="text-3xl sm:text-4xl font-black text-white font-space tracking-tight">{train.departure}</div>
-              <div className="flex items-center justify-center xl:justify-start text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] sm:tracking-[0.2em]">
-                <MapPin className="w-2.5 h-2.5 sm:w-3 sm:h-3 mr-1 sm:mr-2 text-cyan-400" /> {train.from} ({train.fromCode})
+              <div className="flex items-center text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] sm:tracking-[0.2em]">
+                <MapPin className="w-2.5 h-2.5 sm:w-3 sm:h-3 mr-1 sm:mr-2 text-cyan-500" /> {train.from} ({train.fromCode})
               </div>
             </div>
 
-            <div className="xl:col-span-3 px-4 sm:px-6 lg:px-10 relative order-3 xl:order-2">
-              <div className="hidden xl:block absolute top-1/2 left-0 w-full h-[1px] bg-white/5 -translate-y-1/2 overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent animate-scanline h-full w-[200px]" style={{ animation: 'scan 2s linear infinite' }}></div>
-              </div>
-              <div className="relative flex flex-col items-center">
-                <div className="bg-[#020617] px-4 sm:px-6 py-1.5 sm:py-2 text-[10px] sm:text-[11px] font-black text-white rounded-full border border-white/10 shadow-xl z-10 flex items-center">
-                  <Clock className="w-2.5 h-2.5 sm:w-3 sm:h-3 mr-1.5 sm:mr-2 text-cyan-400" />
-                  {train.duration}
-                </div>
-                <div className="hidden xl:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#020617] p-2 rounded-full border border-white/5">
-                  <Navigation className="w-5 h-5 text-cyan-400 rotate-90 drop-shadow-[0_0_10px_rgba(0,242,255,0.5)]" />
-                </div>
+            {/* Duration Display (Center) */}
+            <div className="flex flex-col items-center px-4">
+              <div className="text-[10px] font-bold text-slate-500 mb-1">{train.duration}</div>
+              <div className="w-20 sm:w-32 h-0.5 bg-white/10 relative">
+                <div className="absolute top-1/2 left-0 w-2 h-2 -mt-1 bg-cyan-500 rounded-full shadow-[0_0_10px_rgba(34,211,238,0.8)]"></div>
+                <div className="absolute top-1/2 right-0 w-2 h-2 -mt-1 bg-orange-500 rounded-full shadow-[0_0_10px_rgba(249,115,22,0.8)]"></div>
               </div>
             </div>
 
-            <div className="xl:col-span-2 text-center xl:text-right space-y-2 order-2 xl:order-3">
+            <div className="text-right">
               <div className="text-3xl sm:text-4xl font-black text-white font-space tracking-tight">{train.arrival}</div>
-              <div className="flex items-center justify-center xl:justify-end text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] sm:tracking-[0.2em]">
+              <div className="flex items-center justify-end text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] sm:tracking-[0.2em]">
                 {train.to} ({train.toCode}) <MapPin className="w-2.5 h-2.5 sm:w-3 sm:h-3 ml-1 sm:ml-2 text-orange-500" />
               </div>
             </div>
@@ -186,7 +200,7 @@ const TrainCard: React.FC<TrainCardProps> = ({ train }) => {
                 className="flex items-center text-[9px] sm:text-[10px] font-black text-cyan-400 hover:text-white transition-all uppercase tracking-[0.2em] sm:tracking-[0.25em] group"
               >
                 {isExpanded ? <ChevronUp className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" /> : <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" />}
-                <span className="border-b border-cyan-400/30 group-hover:border-white">Details & Intel</span>
+                <span className="border-b border-cyan-400/30 group-hover:border-white">Route & Info</span>
               </button>
               <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4">
                 {train.amenities.map(amenity => (
@@ -240,7 +254,7 @@ const TrainCard: React.FC<TrainCardProps> = ({ train }) => {
                 <div className="lg:col-span-2">
                   <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] mb-6 flex items-center">
                     <div className="w-2 h-2 bg-cyan-500 rounded-full mr-3"></div>
-                    Orbital Route Matrix
+                    Route Schedule
                   </h4>
                   <div className="relative space-y-6 before:absolute before:left-[7px] before:top-2 before:bottom-2 before:w-[1px] before:bg-white/10">
                     {[
@@ -262,11 +276,11 @@ const TrainCard: React.FC<TrainCardProps> = ({ train }) => {
                   </div>
                 </div>
                 <div className="bg-white/5 rounded-3xl p-6 border border-white/5">
-                  <h4 className="text-[10px] font-black text-orange-500 uppercase tracking-[0.3em] mb-4">Refund Policy V2.5</h4>
+                  <h4 className="text-[10px] font-black text-orange-500 uppercase tracking-[0.3em] mb-4">Refund Policy</h4>
                   <div className="space-y-4 text-[11px] text-slate-400 leading-relaxed font-medium">
                     <p className="flex items-start"><span className="text-orange-500 mr-2">01</span> Instant credits for T-48h cancellations. Standard deduction of ₹240 applies.</p>
-                    <p className="flex items-start"><span className="text-orange-500 mr-2">02</span> Dynamic pricing protection: 50% refund for T-12h to T-4h window.</p>
-                    <p className="flex items-start"><span className="text-orange-500 mr-2">03</span> Automated PNR liquidation after chart preparation if not confirmed.</p>
+                    <p className="flex items-start"><span className="text-orange-500 mr-2">02</span> 50% refund if cancelled 4-12 hours before departure.</p>
+                    <p className="flex items-start"><span className="text-orange-500 mr-2">03</span> Automatic cancellation for unconfirmed waitlisted tickets.</p>
                   </div>
                 </div>
               </div>

@@ -179,7 +179,7 @@ const Header: React.FC = () => {
                 <Shield className="w-8 h-8 text-cyan-400" />
               </div>
               <h2 className="text-2xl font-black text-white uppercase tracking-[0.2em] mb-2 font-outfit">Secure Login</h2>
-              <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">IRCTC Quantum Access</p>
+              <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">IRCTC User Access</p>
             </div>
 
             <form onSubmit={handleLogin} className="space-y-6">
@@ -212,7 +212,7 @@ const Header: React.FC = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="w-full bg-white/5 border border-white/10 rounded-xl py-4 pl-12 pr-4 text-white text-sm font-bold outline-none focus:border-cyan-500/50 focus:bg-white/10 transition-all font-space placeholder:text-slate-600"
-                    placeholder="QT-256 ENCRYPTED"
+                    placeholder="PASSWORD"
                   />
                 </div>
               </div>
@@ -268,8 +268,8 @@ const Header: React.FC = () => {
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-orange-500/10 mb-4 border border-orange-500/20 shadow-[0_0_20px_rgba(255,153,51,0.15)]">
                 <User className="w-8 h-8 text-orange-400" />
               </div>
-              <h2 className="text-2xl font-black text-white uppercase tracking-[0.2em] mb-2 font-outfit">Citizen Registry</h2>
-              <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">Join the NexGen Railway Network</p>
+              <h2 className="text-2xl font-black text-white uppercase tracking-[0.2em] mb-2 font-outfit">New Registration</h2>
+              <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">Join the Railway Network</p>
             </div>
 
             <form onSubmit={handleRegister} className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
@@ -291,7 +291,7 @@ const Header: React.FC = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-[9px] font-black text-orange-400 uppercase tracking-[0.3em] ml-2">Email Vector</label>
+                <label className="text-[9px] font-black text-orange-400 uppercase tracking-[0.3em] ml-2">Email Address</label>
                 <div className="relative group">
                   <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-hover:text-orange-400 transition-colors">
                     <Mail className="w-4 h-4" />
@@ -325,7 +325,7 @@ const Header: React.FC = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-[9px] font-black text-orange-400 uppercase tracking-[0.3em] ml-2">Secure Key</label>
+                <label className="text-[9px] font-black text-orange-400 uppercase tracking-[0.3em] ml-2">Password</label>
                 <div className="relative group">
                   <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-hover:text-orange-400 transition-colors">
                     <Lock className="w-4 h-4" />
@@ -350,10 +350,10 @@ const Header: React.FC = () => {
                   {isProcessing ? (
                     <>
                       <Loader2 className="w-5 h-5 animate-spin" />
-                      <span>INITIALIZING REGISTRY...</span>
+                      <span>REGISTERING...</span>
                     </>
                   ) : (
-                    <span>CREATE NEXGEN ACCOUNT</span>
+                    <span>CREATE ACCOUNT</span>
                   )}
                 </button>
               </div>
@@ -361,8 +361,8 @@ const Header: React.FC = () => {
 
             <div className="mt-8 text-center">
               <p className="text-[9px] text-slate-500 font-bold uppercase tracking-widest leading-relaxed">
-                By registering, you agree to the IRCTC Quantum Protocol <br />
-                & Secure Data Management Terms.
+                By registering, you agree to the IRCTC Rules <br />
+                & Data Privacy Terms.
               </p>
             </div>
           </div>

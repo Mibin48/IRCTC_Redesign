@@ -1,4 +1,5 @@
 
+// Types of train compartments (seating classes)
 export enum TrainClass {
   ALL = 'All Classes',
   SL = 'Sleeper (SL)',
@@ -13,6 +14,7 @@ export enum TrainClass {
   VBE = 'Vande Bharat Executive'
 }
 
+// Ticket quota types (who can book)
 export enum Quota {
   GENERAL = 'GENERAL',
   LADIES = 'LADIES',
@@ -23,14 +25,16 @@ export enum Quota {
   PREMIUM_TATKAL = 'PREMIUM TATKAL'
 }
 
+// Info about each class in a train (availability, price, etc)
 export interface Availability {
   class: TrainClass;
-  status: string; // e.g., 'AVAILABLE-0045'
+  status: string; // e.g., 'AVAILABLE-0045' means tickets available
   fare: number;
   lastUpdated: string;
-  type: 'green' | 'yellow' | 'red';
+  type: 'green' | 'yellow' | 'red'; // green=available, yellow=limited, red=full
 }
 
+// Main train details
 export interface Train {
   id: string;
   number: string;
@@ -42,11 +46,12 @@ export interface Train {
   departure: string;
   arrival: string;
   duration: string;
-  runsOn: string[]; // ['M', 'T', 'W', 'T', 'F', 'S', 'S']
+  runsOn: string[]; // Days it runs ['M', 'T', 'W', 'T', 'F', 'S', 'S']
   classes: Availability[];
   amenities: string[];
 }
 
+// Train station details
 export interface Station {
   code: string;
   name: string;

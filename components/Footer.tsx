@@ -23,14 +23,14 @@ const Footer: React.FC = () => {
               </div>
             </div>
             <p className="text-xs sm:text-sm leading-relaxed text-slate-500 font-medium max-w-xs">
-              Pioneering the future of Indian high-speed rail travel with quantum-encrypted ticketing and AI-driven logistics.
+              Pioneering the future of Indian high-speed rail travel with secure ticketing and smart logistics.
             </p>
           </div>
 
           <div>
             <h4 className="flex items-center text-[9px] sm:text-[10px] font-black text-white uppercase tracking-[0.2em] sm:tracking-[0.3em] mb-6 sm:mb-8">
               <span className="w-4 sm:w-6 h-[2px] bg-cyan-500 mr-2 sm:mr-3"></span>
-              Navigation Matrix
+              Quick Links
             </h4>
             <ul className="space-y-3 sm:space-y-4 text-xs sm:text-sm font-medium">
               {['Book Ticket', 'PNR Status', 'Cancel Ticket', 'Track Train', 'Food on Track'].map((item) => (
@@ -47,7 +47,7 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="flex items-center text-[9px] sm:text-[10px] font-black text-white uppercase tracking-[0.2em] sm:tracking-[0.3em] mb-6 sm:mb-8">
               <span className="w-4 sm:w-6 h-[2px] bg-orange-500 mr-2 sm:mr-3"></span>
-              Legal Protocols
+              Legal Info
             </h4>
             <ul className="space-y-3 sm:space-y-4 text-xs sm:text-sm font-medium">
               {['Privacy Policy', 'Terms & Conditions', 'Refund Rules', 'Grievance Redressal'].map((item) => (
@@ -64,7 +64,7 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="flex items-center text-[9px] sm:text-[10px] font-black text-white uppercase tracking-[0.2em] sm:tracking-[0.3em] mb-6 sm:mb-8">
               <span className="w-4 sm:w-6 h-[2px] bg-blue-500 mr-2 sm:mr-3"></span>
-              Comms Channels
+              Contact Us
             </h4>
             <ul className="space-y-4 sm:space-y-5 text-xs sm:text-sm">
               <li className="flex items-start space-x-3 group cursor-pointer">
@@ -110,7 +110,7 @@ const Footer: React.FC = () => {
 
         <div className="pt-6 sm:pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
           <p className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em] text-slate-600 text-center sm:text-left">
-            © 2024 IRCTC NexGen eTicketing System.
+            © 2024 IRCTC eTicketing System.
           </p>
           <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4 lg:space-x-6 text-[9px] sm:text-[10px] font-bold uppercase tracking-widest text-slate-600">
             <span className="flex items-center"><div className="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-2 animate-pulse"></div> System Operational</span>

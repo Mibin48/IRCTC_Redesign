@@ -4,35 +4,53 @@ import { TrainClass, Quota } from '../types';
 import { stations } from '../data/trains';
 
 interface SearchFormProps {
+  // Function called when user clicks search button
   onSearch?: (searchParams: { from: string; to: string; date: string }) => void;
 }
 
+/**
+ * SearchForm Component - Main search interface for finding trains
+ * Users can:
+ * 1. Pick starting and ending stations
+ * 2. Choose travel date
+ * 3. Select train class (AC, Sleeper, etc)
+ * 4. Select ticket quota
+ * 5. Set preferences (flexible dates, etc)
+ */
 const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
-  const [from, setFrom] = useState('NDLS');
-  const [to, setTo] = useState('BSB');
-  const [date, setDate] = useState('2024-12-15');
-  const [selectedClass, setSelectedClass] = useState(TrainClass.ALL);
-  const [selectedQuota, setSelectedQuota] = useState(Quota.GENERAL);
-  const [isSearching, setIsSearching] = useState(false);
-  const [searchSuccess, setSearchSuccess] = useState(false);
+  // ===== STATION SELECTION =====
+  const [from, setFrom] = useState('NDLS'); // Starting station code
+  const [to, setTo] = useState('BSB'); // Destination station code
+  
+  // ===== TRAVEL DETAILS =====
+  const [date, setDate] = useState('2024-12-15'); // Travel date
+  const [selectedClass, setSelectedClass] = useState(TrainClass.ALL); // Train class preference
+  const [selectedQuota, setSelectedQuota] = useState(Quota.GENERAL); // Booking quota type
+  
+  // ===== UI STATES =====
+  const [isSearching, setIsSearching] = useState(false); // Show loading spinner
+  const [searchSuccess, setSearchSuccess] = useState(false); // Show success message
+  
+  // ===== CHECKBOX OPTIONS =====
+  const [flexibleDate, setFlexibleDate] = useState(true); // Allow dates +/- 5 days
+  const [physicallyChallenged, setPhysicallyChallenged] = useState(false); // PWD quota
+  const [confirmedBerth, setConfirmedBerth] = useState(false); // Only show confirmed tickets
 
-  // Checkbox states
-  const [flexibleDate, setFlexibleDate] = useState(true);
-  const [physicallyChallenged, setPhysicallyChallenged] = useState(false);
-  const [confirmedBerth, setConfirmedBerth] = useState(false);
-
+  // Swap from and to stations
   const handleSwap = () => {
     const temp = from;
     setFrom(to);
     setTo(temp);
   };
 
+  // Main search handler
   const handleSearch = () => {
     setIsSearching(true);
     setSearchSuccess(false);
 
-    // Simulate search
+    // Simulate API search (takes 1.5 seconds)
     setTimeout(() => {
+      // Log all search parameters for debugging
       console.log('🔍 Search Parameters:', {
         from,
         to,
@@ -46,14 +64,16 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
         }
       });
 
+      // Call parent component's search handler
       if (onSearch) {
         onSearch({ from, to, date });
       }
 
+      // Hide loading state and show success
       setIsSearching(false);
       setSearchSuccess(true);
 
-      // Reset success state after animation
+      // Clear success message after 2 seconds
       setTimeout(() => setSearchSuccess(false), 2000);
     }, 1500);
   };
@@ -62,7 +82,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
     <div className="relative -mt-12 sm:-mt-16 lg:-mt-24 mx-auto max-w-6xl px-3 sm:px-4 pb-12 sm:pb-16 z-20">
       <div className="glass rounded-[24px] sm:rounded-[32px] lg:rounded-[40px] shadow-[0_40px_100px_rgba(0,0,0,0.6)] overflow-hidden p-1 neon-border">
         <div className="bg-[#020617]/80 rounded-[23px] sm:rounded-[31px] lg:rounded-[39px] p-4 sm:p-6 lg:p-8 xl:p-12 relative overflow-hidden">
-          {/* Subtle Background Circuit Pattern */}
+          {/* Decorative background */}
           <div className="absolute top-0 right-0 w-64 h-64 opacity-[0.03] pointer-events-none">
             <svg viewBox="0 0 100 100" className="w-full h-full text-white">
               <path d="M10,10 L90,10 L90,90 L10,90 Z M20,20 L80,20 M20,40 L80,40 M20,60 L80,60 M20,80 L80,80" fill="none" stroke="currentColor" />
@@ -71,23 +91,18 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-8 items-end">
 
-            {/* From Station */}
+            {/* FROM STATION */}
             <div className="lg:col-span-3 space-y-2 sm:space-y-3 group">
-              <label className="text-[9px] sm:text-[10px] font-black text-cyan-400 uppercase tracking-[0.2em] sm:tracking-[0.3em] ml-2 neon-text-blue">Departure Hub</label>
+              <label className="text-[9px] sm:text-[10px] font-black text-cyan-400 uppercase tracking-[0.2em] sm:tracking-[0.3em] ml-2">Departure Station</label>
               <div className="relative">
-                <div className="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 text-cyan-400 z-10 pointer-events-none">
-                  <MapPin className="w-4 h-4 sm:w-5 sm:h-5" />
-                </div>
-                <div className="absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 text-slate-500 z-10 pointer-events-none group-hover:text-cyan-400 transition-colors">
-                  <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4" />
-                </div>
+                <MapPin className="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 text-cyan-400 w-4 h-4 sm:w-5 sm:h-5 z-10 pointer-events-none" />
                 <select
                   value={from}
                   onChange={(e) => setFrom(e.target.value)}
-                  className="w-full appearance-none pl-10 sm:pl-14 pr-8 sm:pr-10 py-3 sm:py-4 lg:py-5 bg-white/5 border border-white/10 focus:border-cyan-500/50 focus:bg-white/10 rounded-xl sm:rounded-2xl text-white font-bold text-xs sm:text-sm outline-none transition-all cursor-pointer hover:bg-white/10 font-space"
+                  className="w-full appearance-none pl-10 sm:pl-14 pr-8 sm:pr-10 py-3 sm:py-4 lg:py-5 bg-white/5 border border-white/10 focus:border-cyan-500/50 focus:bg-white/10 rounded-xl text-white font-bold text-xs outline-none transition-all cursor-pointer hover:bg-white/10"
                 >
                   {stations.map((station) => (
-                    <option key={`from-${station.code}`} value={station.code} className="bg-[#020617] text-white py-2">
+                    <option key={`from-${station.code}`} value={station.code} className="bg-[#020617] text-white">
                       {station.name} ({station.code})
                     </option>
                   ))}
@@ -95,7 +110,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
               </div>
             </div>
 
-            {/* Swap Button */}
+            {/* SWAP BUTTON */}
             <div className="hidden lg:flex lg:col-span-1 justify-center pb-3">
               <button
                 onClick={handleSwap}
