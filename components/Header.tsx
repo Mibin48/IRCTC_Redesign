@@ -5,6 +5,7 @@ import { User, Menu, ChevronDown, Bell, Search, LogIn, Calendar, MapPin, Bus, Pl
 const Header: React.FC = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
 
   // Login State
@@ -121,7 +122,10 @@ const Header: React.FC = () => {
                 <span className="hidden lg:inline">REGISTER</span>
                 <span className="lg:hidden">REG</span>
               </button>
-              <button className="p-2 sm:p-3 text-slate-400 hover:text-white transition-colors xl:hidden">
+              <button
+                onClick={() => setIsMobileMenuOpen(true)}
+                className="p-2 sm:p-3 text-slate-400 hover:text-white transition-colors xl:hidden"
+              >
                 <Menu className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8" />
               </button>
             </div>
@@ -364,6 +368,71 @@ const Header: React.FC = () => {
                 By registering, you agree to the IRCTC Rules <br />
                 & Data Privacy Terms.
               </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 z-[100] xl:hidden">
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-[#020617]/95 backdrop-blur-xl animate-in fade-in duration-200"
+            onClick={() => setIsMobileMenuOpen(false)}
+          ></div>
+
+          {/* Menu Content */}
+          <div className="relative h-full w-4/5 max-w-sm bg-[#0a1020] border-r border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)] animate-in slide-in-from-left duration-300 p-6 flex flex-col">
+            {/* Header */}
+            <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center space-x-3">
+                <div className="text-xl font-black text-white font-outfit uppercase tracking-widest">MENU</div>
+              </div>
+              <button
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="p-2 rounded-full bg-white/5 text-slate-400 hover:text-white"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            {/* Nav Links */}
+            <nav className="flex-1 space-y-4">
+              {[
+                { label: 'TRAINS', icon: MapPin, active: true },
+                { label: 'BUSES', icon: Bus },
+                { label: 'FLIGHTS', icon: Plane },
+                { label: 'HOTELS', icon: Hotel },
+                { label: 'HOLIDAYS', icon: Calendar }
+              ].map((item) => (
+                <a
+                  key={item.label}
+                  href="#"
+                  className={`flex items-center space-x-4 text-xs font-black tracking-[0.2em] p-4 rounded-xl transition-all border
+                    ${item.active ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20' : 'border-transparent text-slate-400 hover:text-white hover:bg-white/5'}`}
+                >
+                  <item.icon className="w-5 h-5" />
+                  <span>{item.label}</span>
+                </a>
+              ))}
+            </nav>
+
+            {/* Actions */}
+            <div className="space-y-4 pt-8 border-t border-white/10">
+              <button
+                onClick={() => { setIsMobileMenuOpen(false); setIsLoginOpen(true); }}
+                className="w-full flex items-center justify-center space-x-2 py-4 bg-white/5 border border-white/10 hover:bg-white/10 text-white rounded-xl font-black tracking-widest text-xs uppercase transition-all"
+              >
+                <LogIn className="w-4 h-4 text-cyan-400" />
+                <span>Login Account</span>
+              </button>
+              <button
+                onClick={() => { setIsMobileMenuOpen(false); setIsRegisterOpen(true); }}
+                className="w-full flex items-center justify-center space-x-2 py-4 vande-bharat-orange text-white rounded-xl font-black tracking-widest text-xs uppercase shadow-lg transition-all"
+              >
+                <span>Create Account</span>
+              </button>
             </div>
           </div>
         </div>

@@ -19,7 +19,9 @@ const App: React.FC = () => {
   const [selectedTimeSlots, setSelectedTimeSlots] = useState<string[]>([]); // Selected departure times
   const [sortBy, setSortBy] = useState<'optimized' | 'credits' | 'timeline'>('optimized'); // How to sort results
   const [searchParams, setSearchParams] = useState({ from: '', to: '', date: '' }); // Search criteria
+
   const [isFiltersOpen, setIsFiltersOpen] = useState(false); // Show/hide filter panel
+  const [visibleCount, setVisibleCount] = useState(10); // Number of trains to show initially
 
   // ===== SCROLL TO TOP EFFECT =====
   useEffect(() => {
@@ -61,6 +63,7 @@ const App: React.FC = () => {
     setSelectedTimeSlots([]);
     setSearchParams({ from: '', to: '', date: '' });
     setSortBy('optimized');
+    setVisibleCount(10);
   };
 
   // ===== MAIN FILTER FUNCTION - Filters and sorts trains =====
@@ -201,7 +204,7 @@ const App: React.FC = () => {
       <SearchForm onSearch={setSearchParams} />
 
       {/* Results Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 sm:mt-16 lg:mt-20 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 mt-12 sm:mt-16 lg:mt-20 relative z-10">
         {/* Mobile Filter Toggle Button */}
         <div className="xl:hidden mb-6 flex items-center justify-between">
           <h2 className="text-xl sm:text-2xl font-black text-white font-outfit tracking-tight">
@@ -343,9 +346,22 @@ const App: React.FC = () => {
             {/* Train Cards */}
             <div className="space-y-4">
               {filteredTrains.length > 0 ? (
-                filteredTrains.map((train) => (
-                  <TrainCard key={train.id} train={train} />
-                ))
+                <>
+                  {filteredTrains.slice(0, visibleCount).map((train) => (
+                    <TrainCard key={train.id} train={train} />
+                  ))}
+
+                  {visibleCount < filteredTrains.length && (
+                    <div className="flex justify-center pt-8">
+                      <button
+                        onClick={() => setVisibleCount(prev => prev + 10)}
+                        className="px-8 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-xs font-black text-cyan-400 uppercase tracking-widest transition-all hover:scale-105 active:scale-95"
+                      >
+                        Load More Trains ({filteredTrains.length - visibleCount} Remaining)
+                      </button>
+                    </div>
+                  )}
+                </>
               ) : (
                 <div className="p-8 sm:p-12 lg:p-16 glass rounded-[24px] sm:rounded-[32px] lg:rounded-[40px] text-center border-2 border-dashed border-white/10">
                   <div className="max-w-md mx-auto">
